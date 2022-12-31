@@ -1,0 +1,462 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/backlog/addBacklog": {
+            "post": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关方法"
+                ],
+                "summary": "编辑待办信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "backlogText",
+                        "name": "backlogText",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "backlogStatus",
+                        "name": "backlogStatus",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/backlog/getBacklogList": {
+            "get": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关方法"
+                ],
+                "summary": "获取待办信息列表",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/addUserResume": {
+            "post": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "添加简历和用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "resumeUrl",
+                        "name": "resumeUrl",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "phone",
+                        "name": "phone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "gender",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "employmentIntention",
+                        "name": "employmentIntention",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "confirmEnrollment",
+                        "name": "confirmEnrollment",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "jobbed",
+                        "name": "jobbed",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "level",
+                        "name": "level",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "targetCompany",
+                        "name": "targetCompany",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "postSalary",
+                        "name": "postSalary",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "timeInduction",
+                        "name": "timeInduction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "firstContactTime",
+                        "name": "firstContactTime",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "personCharge",
+                        "name": "personCharge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "remarks",
+                        "name": "remarks",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/mainResume": {
+            "get": {
+                "description": "{ \"page\": 1, \"pageSize\": 10 }",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "获取重点关注人群简历列表接口",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/modifyMain": {
+            "post": {
+                "description": "{\"status\":0, id: 1}",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "取消/添加重点标记 0取消 1 添加",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "true/false",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/resume": {
+            "get": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "获取简历列表接口",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/upload": {
+            "post": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "上传文件",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "password",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/refreshToken": {
+            "get": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "刷新token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "password",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/sendMail": {
+            "get": {
+                "description": "do ping",
+                "tags": [
+                    "公共方法"
+                ],
+                "summary": "邮箱获取验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "mail",
+                        "name": "mail",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/userList": {
+            "get": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin方法"
+                ],
+                "summary": "获取系统内所有的用户",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

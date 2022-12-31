@@ -1,0 +1,305 @@
+info:
+  contact: {}
+paths:
+  /backlog/addBacklog:
+    post:
+      consumes:
+      - application/json
+      description: do ping
+      parameters:
+      - description: backlogText
+        in: query
+        name: backlogText
+        required: true
+        type: string
+      - description: backlogStatus
+        in: query
+        name: backlogStatus
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 编辑待办信息
+      tags:
+      - 用户相关方法
+  /backlog/getBacklogList:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取待办信息列表
+      tags:
+      - 用户相关方法
+  /list/addUserResume:
+    post:
+      consumes:
+      - application/json
+      description: do ping
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: resumeUrl
+        in: query
+        name: resumeUrl
+        required: true
+        type: string
+      - description: phone
+        in: query
+        name: phone
+        type: string
+      - description: gender
+        in: query
+        name: gender
+        type: string
+      - description: employmentIntention
+        in: query
+        name: employmentIntention
+        type: string
+      - description: confirmEnrollment
+        in: query
+        name: confirmEnrollment
+        type: string
+      - description: jobbed
+        in: query
+        name: jobbed
+        type: string
+      - description: level
+        in: query
+        name: level
+        type: string
+      - description: targetCompany
+        in: query
+        name: targetCompany
+        type: string
+      - description: postSalary
+        in: query
+        name: postSalary
+        type: string
+      - description: timeInduction
+        in: query
+        name: timeInduction
+        type: string
+      - description: firstContactTime
+        in: query
+        name: firstContactTime
+        type: string
+      - description: personCharge
+        in: query
+        name: personCharge
+        type: string
+      - description: remarks
+        in: query
+        name: remarks
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 添加简历和用户信息
+      tags:
+      - 简历相关
+  /list/mainResume:
+    get:
+      consumes:
+      - application/json
+      description: '{ "page": 1, "pageSize": 10 }'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取重点关注人群简历列表接口
+      tags:
+      - 简历相关
+  /list/modifyMain:
+    post:
+      consumes:
+      - application/json
+      description: '{"status":0, id: 1}'
+      parameters:
+      - description: true/false
+        in: query
+        name: status
+        required: true
+        type: string
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 取消/添加重点标记 0取消 1 添加
+      tags:
+      - 简历相关
+  /list/resume:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取简历列表接口
+      tags:
+      - 简历相关
+  /list/upload:
+    post:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 上传文件
+      tags:
+      - 公共方法
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: do ping
+      parameters:
+      - description: username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 用户登录
+      tags:
+      - 公共方法
+  /refreshToken:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      parameters:
+      - description: token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 刷新token
+      tags:
+      - 公共方法
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: do ping
+      parameters:
+      - description: username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 用户注册
+      tags:
+      - 公共方法
+  /sendMail:
+    get:
+      description: do ping
+      parameters:
+      - description: mail
+        in: query
+        name: mail
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 邮箱获取验证码
+      tags:
+      - 公共方法
+  /user/userList:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取系统内所有的用户
+      tags:
+      - admin方法
+swagger: "2.0"
