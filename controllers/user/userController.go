@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 type UserController struct{}
@@ -64,25 +63,8 @@ func (user UserController) UserList(c *gin.Context) {
 		return
 	}
 	pageNumber := (page - 1) * pageSize
-	//var userList []models.User
-	type limitField struct {
-		ID         uint       `json:"id"`
-		UserId     string     `json:"user_id"`
-		Name       string     `json:"name"`
-		Phone      string     `json:"phone"`
-		Email      string     `json:"email"`
-		Gender     uint       `json:"gender"`
-		AvatarUrl  string     `json:"avatar_url"`
-		Country    string     `json:"country"`
-		Province   string     `json:"province"`
-		City       string     `json:"city"`
-		NickName   string     `json:"nick_name"`
-		UserStatus string     `json:"user_status"`
-		IsAdmin    bool       `json:"is_admin"`
-		LineTime   *time.Time `json:"line_time"`
-	}
 
-	var userList []limitField
+	var userList []models.UserField
 	FindError := models.DB.Model(&models.User{}).Offset(pageNumber).Limit(pageSize).Where("is_admin = ?", false).Scan(&userList).Error
 	if FindError != nil {
 		fmt.Println(FindError)
