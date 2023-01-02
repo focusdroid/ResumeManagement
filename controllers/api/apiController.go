@@ -21,10 +21,22 @@ type APIController struct{}
 // @Param mail query string true "mail"
 // @Description do ping
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /sendMail [get]
+// @Router /sendMail [post]
 func (api APIController) SendMail(c *gin.Context) {
-	mail := c.Query("mail")
-	status, _ := strconv.Atoi(c.DefaultQuery("status", "1"))
+	fmt.Println("ccccccc", c)
+	var json = make(map[string]string)
+	c.ShouldBindJSON(&json)
+	//mail := c.Query("mail")
+	//status, _ := strconv.Atoi(c.DefaultQuery("status", "1"))
+	mail := json["mail"]
+	status, _ := strconv.Atoi(json["status"])
+	if mail == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "邮箱参数异常，请检查参数",
+		})
+		return
+	}
 	var users = make(map[string]interface{})
 	models.DB.Model(&models.User{}).Where("email = ?", mail).First(&users)
 	if users["email"] == mail {
@@ -34,6 +46,7 @@ func (api APIController) SendMail(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Println("mailmailmail", mail)
 	if !VerifyEmailFormat(mail) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "200",
@@ -63,10 +76,12 @@ func (api APIController) SendMail(c *gin.Context) {
 }
 
 func VerifyEmailFormat(email string) bool {
-	//pattern := `\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*` //匹配电子邮箱
-	pattern := `^[0-9a-z][_.0-9a-z-]{0,31}@([0-9a-z][0-9a-z-]{0,30}[0-9a-z]\.){1,4}[a-z]{2,4}$`
+	fmt.Println(", email", email)
+	pattern := `\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*` //匹配电子邮箱
+	//pattern := `/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/`
 
 	reg := regexp.MustCompile(pattern)
+	fmt.Println("reg.MatchString(email)", reg.MatchString(email))
 	return reg.MatchString(email)
 }
 
@@ -183,7 +198,7 @@ func (api APIController) Register(c *gin.Context) {
 	code := json["code"]
 
 	fmt.Println(email, password, code)
-	if email == nil || password == nil || code == nil || email == "" || password == "" || code == "" {
+	if email == nil || password == nil || code == nil || email.(string) == "" || password.(string) == "" || code.(string) == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"data":    gin.H{},

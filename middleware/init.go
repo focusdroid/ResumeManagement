@@ -11,6 +11,7 @@ import (
 func InitMiddleware(c *gin.Context) {
 	url := c.Request.RequestURI
 	isNExt := helper.JwtVerify(url)
+	fmt.Println("isNExt", isNExt, url)
 	if isNExt {
 		return
 	}

@@ -112,7 +112,7 @@ var (
 	secret = []byte("16849841325189456f487")
 	//该路由下不校验token
 	//noVerify = []interface{}{"/login", "/ping"}
-	noVerify = []string{"/login", "/register", "/swagger/index.html"}
+	noVerify = []string{"/login", "/register", "/sendMail", "/swagger/index.html"}
 	//token有效时间（纳秒）
 	EffectTime = 2 * time.Hour
 )

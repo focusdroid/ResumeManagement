@@ -12,7 +12,7 @@ func ApiRouters(r *gin.Engine) {
 	{
 		apiRouter.POST("/login", api.APIController{}.Login)
 		apiRouter.POST("/register", api.APIController{}.Register)
-		apiRouter.GET("/sendMail", api.APIController{}.SendMail)
+		apiRouter.POST("/sendMail", api.APIController{}.SendMail)
 		apiRouter.GET("/refreshToken", api.APIController{}.RefreshToken)
 	}
 }
