@@ -30,6 +30,28 @@ type Resume struct {
 	Remarks             string `gorm:"column:remarks;type:varchar(255)" db:"column:remarks" form:"remarks" json:"remarks" comment:"备注信息"`
 }
 
+type ResumeInterface struct {
+	ID                  uint   `json:"id"`
+	UserId              string `json:"user_id"`
+	Name                string `json:"name"`
+	Gender              string `json:"gender"`
+	Phone               string `json:"phone"`
+	Email               string `json:"email"`
+	Jobbed              string `json:"jobbed"`
+	Level               string `json:"level"`
+	TargetCompany       string `json:"target_company"`
+	FirstContactTime    string `json:"first_contact_time"`
+	EmploymentIntention string `json:"employment_intention"`
+	ConfirmEnrollment   string `json:"confirm_enrollment"`
+	PostSalary          string `json:"post_salary"`
+	TimeInduction       string `json:"time_induction"`
+	PersonCharge        string `json:"person_charge"`
+	Follow              bool   `json:"follow"`
+	ResumeUrl           string `json:"resume_url;"`
+	ResumeStatus        string `json:"resume_status"`
+	Remarks             string `json:"remarks"`
+}
+
 func (resume Resume) TableName() string {
 	return "resume"
 }

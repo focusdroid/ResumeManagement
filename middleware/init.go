@@ -19,7 +19,7 @@ func InitMiddleware(c *gin.Context) {
 	fmt.Println(token, token == "")
 	if token == "" {
 		c.JSON(http.StatusOK, gin.H{
-			"code":    "-1",
+			"code":    "2001",
 			"message": "未携带token",
 		})
 		c.Abort()
@@ -29,7 +29,7 @@ func InitMiddleware(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "2001",
-			"message": "token解析出错3",
+			"message": "token解析出错,请检查token是否有效",
 		})
 		c.Abort()
 		return

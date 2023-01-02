@@ -30,7 +30,7 @@ func (list ListController) ResumeList(c *gin.Context) {
 	}
 	fmt.Println(userinfo)
 	fmt.Println("获取简历列表")
-	var resumeList []models.Resume
+	var resumeList []models.ResumeInterface
 	errs := models.DB.Model(models.Resume{}).Find(&resumeList).Error
 	if errs != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -68,7 +68,6 @@ func (list ListController) MainResumeList(c *gin.Context) {
 		})
 		return
 	}
-
 	pageSize, pageSizeError := strconv.Atoi(c.DefaultQuery("pageSize", "30"))
 	if pageSize > 50 {
 		pageSize = 50
@@ -83,7 +82,7 @@ func (list ListController) MainResumeList(c *gin.Context) {
 		return
 	}
 	pageNumber := (page - 1) * pageSize
-	var mainResumeList []models.Resume
+	var mainResumeList []models.ResumeInterface
 	findErr := models.DB.Model(models.Resume{}).Where("follow", 1).Offset(pageNumber).Limit(pageSize).Find(&mainResumeList).Error
 	if findErr != nil {
 		fmt.Println("findErr", findErr)
