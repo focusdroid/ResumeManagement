@@ -21,6 +21,28 @@ type ListController struct{}
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /list/resume [get]
 func (list ListController) ResumeList(c *gin.Context) {
+	name := c.DefaultQuery("name", "")
+	email := c.DefaultQuery("email", "")
+	page, pageError := strconv.Atoi(c.DefaultQuery("page", "1"))
+	if pageError != nil {
+		fmt.Println("pageError", pageError)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"data":    gin.H{},
+			"message": "page参数异常",
+		})
+		return
+	}
+	pageSize, pageSizeError := strconv.Atoi(c.DefaultQuery("pageSize", "50"))
+	if pageSizeError != nil {
+		fmt.Println("pageError", pageSizeError)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"data":    gin.H{},
+			"message": "pageSize参数异常",
+		})
+		return
+	}
 
 	/*token := c.GetHeader("token")
 	userinfo, _ := helper.ParseToken(c, token)*/
@@ -30,8 +52,16 @@ func (list ListController) ResumeList(c *gin.Context) {
 	}
 	fmt.Println(userinfo)
 	fmt.Println("获取简历列表")
-	var resumeList []models.ResumeInterface
-	errs := models.DB.Model(models.Resume{}).Find(&resumeList).Error
+	pageNum := (page - 1) * pageSize
+	var (
+		resumeList []models.ResumeInterface
+		errs       error
+	)
+	if name == "" && email == "" {
+		errs = models.DB.Model(models.Resume{}).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+	} else {
+		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+	}
 	if errs != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
