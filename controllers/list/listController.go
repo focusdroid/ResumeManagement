@@ -60,7 +60,7 @@ func (list ListController) ResumeList(c *gin.Context) {
 	if name == "" && email == "" {
 		errs = models.DB.Model(models.Resume{}).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	} else {
-		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	}
 	if errs != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -113,7 +113,7 @@ func (list ListController) MainResumeList(c *gin.Context) {
 	}
 	pageNumber := (page - 1) * pageSize
 	var mainResumeList []models.ResumeInterface
-	findErr := models.DB.Model(models.Resume{}).Where("follow", 1).Offset(pageNumber).Limit(pageSize).Find(&mainResumeList).Error
+	findErr := models.DB.Model(models.Resume{}).Where("follow", 1).Where("is_delete", 0).Offset(pageNumber).Limit(pageSize).Find(&mainResumeList).Error
 	if findErr != nil {
 		fmt.Println("findErr", findErr)
 		c.JSON(http.StatusOK, gin.H{
@@ -179,7 +179,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 		return
 	}
 	var searchData models.Resume
-	err := models.DB.Model(models.Resume{}).Where("id = ?", id).First(&searchData).Error
+	err := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("is_delete", 0).First(&searchData).Error
 	fmt.Println("------------", status, searchData.Follow)
 	if statusBool == searchData.Follow {
 		c.JSON(http.StatusOK, gin.H{
@@ -189,7 +189,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 		})
 		return
 	}
-	updateError := models.DB.Model(models.Resume{}).Where("id = ?", id).Update("Follow", statusBool).Error
+	updateError := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("is_delete", 0).Update("Follow", statusBool).Error
 	if updateError != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusOK, gin.H{

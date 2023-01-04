@@ -19,7 +19,7 @@ func Init() *gorm.DB {
 	}
 	DB.AutoMigrate(&User{}, &Resume{}, &Backlog{})
 	//DB.Migrator().AddColumn(&User{}, "IsAdmin")
-	DB.Migrator().DropColumn(&User{}, "IsAdmins")
+	//DB.Migrator().DropColumn(&User{}, "IsAdmins")
 	//DB.Migrator().DropColumn(&User{}, "IsAdmin")
 	fmt.Println("数据库连接成功!")
 	return DB

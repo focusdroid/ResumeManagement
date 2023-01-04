@@ -27,6 +27,7 @@ type Resume struct {
 	Follow              bool   `gorm:"column:follow;type:tinyint;default:0;" db:"column:follow" form:"follow" json:"follow" comment:"是否重点关注"`
 	ResumeUrl           string `gorm:"column:resume_url;type:varchar(256);" db:"column:resume_url" form:"resume_url" json:"resume_url" comment:"简历url"`
 	ResumeStatus        string `gorm:"column:resume_status;type:varchar(20);default: 1" db:"column:resume_status" form:"resume_status" json:"resume_status" comment:"简历状态0禁止查看管理员可以看,1正常查看"`
+	IsDelete            bool   `gorm:"column:is_delete;tinyint;default:0;" db:"column:is_delete" form:"is_delete" json:"is_delete" comment:"0未删除,1已删除"`
 	Remarks             string `gorm:"column:remarks;type:varchar(255)" db:"column:remarks" form:"remarks" json:"remarks" comment:"备注信息"`
 }
 
