@@ -1,0 +1,2 @@
+# ResumeManagement/routers
+routers\listInfoRouters.go:19:35: cannot use list.ListController{}.ResumeDeleted (value of type func(c *gin.H)) as type gin.HandlerFunc in argument to listInfoRouters.GET

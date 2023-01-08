@@ -268,3 +268,12 @@ func AnalysisTokenGetUserInfo(c *gin.Context) (*UserClaims, error) {
 	userinfo, err := ParseToken(c, token)
 	return userinfo, err
 }
+
+// 异常返回封装
+func AbnormalEncapsulation(c *gin.Context, message string) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "-1",
+		"data":    gin.H{},
+		"message": message,
+	})
+}

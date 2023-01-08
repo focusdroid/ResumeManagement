@@ -46,7 +46,9 @@ paths:
     post:
       consumes:
       - application/json
-      description: do ping
+      description: |-
+        do ping
+        /list/addUserResume
       parameters:
       - description: name
         in: query
@@ -121,6 +123,52 @@ paths:
       summary: 添加简历和用户信息
       tags:
       - 简历相关
+  /list/delete:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        { id: 1}
+        url: /list/detail
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 简历详情
+      tags:
+      - 简历相关
+  /list/detail:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        { id: 1}
+        url: /list/detail
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 简历详情
+      tags:
+      - 简历相关
   /list/mainResume:
     get:
       consumes:
@@ -159,7 +207,7 @@ paths:
           description: '{"code":"200", "message":"", "data":""}'
           schema:
             type: string
-      summary: 取消/添加重点标记 0取消 1 添加
+      summary: 取消/添加重点标记 false取消 true 添加
       tags:
       - 简历相关
   /list/resume:
@@ -181,7 +229,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: do ping
+      description: /list/upload
       produces:
       - application/json
       responses:
@@ -271,7 +319,7 @@ paths:
       tags:
       - 公共方法
   /sendMail:
-    get:
+    post:
       description: do ping
       parameters:
       - description: mail
@@ -299,7 +347,7 @@ paths:
           description: '{"code":"200", "message":"", "data":""}'
           schema:
             type: string
-      summary: 获取系统内所有的用户
+      summary: 管理员手动添加用户
       tags:
       - admin方法
 swagger: "2.0"

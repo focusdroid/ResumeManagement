@@ -58,7 +58,7 @@ func (list ListController) ResumeList(c *gin.Context) {
 		errs       error
 	)
 	if name == "" && email == "" {
-		errs = models.DB.Model(models.Resume{}).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	} else {
 		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	}
@@ -72,8 +72,13 @@ func (list ListController) ResumeList(c *gin.Context) {
 	}
 	//c.String(http.StatusOK, "简历列表信息")
 	c.JSON(http.StatusOK, gin.H{
-		"code":    "200",
-		"data":    resumeList,
+		"code": "200",
+		"data": gin.H{
+			"data":     resumeList,
+			"total":    len(resumeList),
+			"page":     page,
+			"pageSize": pageSize,
+		},
 		"text":    "简历列表接口",
 		"message": "success",
 	})
@@ -225,6 +230,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 // @Param personCharge query string false "personCharge"
 // @Param remarks query string false "remarks"
 // @Description do ping
+// @Description /list/addUserResume
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
@@ -299,7 +305,7 @@ func (list ListController) AddUserResume(c *gin.Context) {
 // Upload
 // @Tags 公共方法
 // @Summary 上传文件
-// @Description do ping
+// @Description /list/upload
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
@@ -342,4 +348,95 @@ func (list ListController) Upload(c *gin.Context) {
 		"path":     dir,
 		"filename": filename,
 	})*/
+}
+
+// ResumeDetail
+// @Tags 简历相关
+// @Summary 简历详情
+// @Param id query int true "id"
+// @Description { id: 1}
+// @Description url: /list/detail
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /list/detail [get]
+func (list ListController) ResumeDetail(c *gin.Context) {
+	var (
+		id      interface{}
+		idError error
+	)
+	id, idError = strconv.Atoi(c.Query("id"))
+	if idError != nil {
+		helper.AbnormalEncapsulation(c, "id参数异常")
+		return
+	}
+	_, ok := id.(int)
+	if !ok {
+		helper.AbnormalEncapsulation(c, "id参数异常")
+		return
+	}
+	//fmt.Println(reflect.TypeOf(id))
+	var resumeDetail models.ResumeInterface
+	findError := models.DB.Model(&models.Resume{}).Where("id = ?", id).Where("is_delete = ?", 0).First(&resumeDetail).Error
+	if findError != nil {
+		helper.AbnormalEncapsulation(c, "查询数据异常或id不存在")
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"data":    resumeDetail,
+		"message": "success",
+	})
+	return
+}
+
+// ResumeDelete
+// @Tags 简历相关
+// @Summary 简历详情
+// @Param id query int true "id"
+// @Description { id: 1}
+// @Description url: /list/detail
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /list/delete [get]
+func (list ListController) ResumeDelete(c *gin.Context) {
+	var (
+		id      interface{}
+		idError error
+	)
+	id, idError = strconv.Atoi(c.Query("id"))
+	if idError != nil {
+		helper.AbnormalEncapsulation(c, "id参数异常")
+		return
+	}
+	_, ok := id.(int)
+	if !ok {
+		helper.AbnormalEncapsulation(c, "id参数异常")
+		return
+	}
+	findError := models.DB.Model(&models.Resume{}).Where("id = ? and is_delete = ?", id, 0).Update("is_delete", 1).Error
+	if findError != nil {
+		helper.AbnormalEncapsulation(c, "查询数据异常或id不存在")
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"data":    gin.H{},
+		"message": "success",
+	})
+	return
+}
+
+// ResumeDeleted
+// @Tags 简历相关
+// @Summary 获取已经删除的个人信息
+// @Description
+// @Description url: /list/deleted
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /list/deleted [get]
+func (list ListController) ResumeDeleted(c *gin.H) {
+
 }

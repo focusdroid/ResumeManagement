@@ -14,5 +14,8 @@ func ListInfoRouters(r *gin.Engine) {
 		listInfoRouters.POST("/addUserResume", list.ListController{}.AddUserResume) // 添加用户信息(简历)
 		listInfoRouters.POST("/upload", list.ListController{}.Upload)               // 上传文件[暂时废弃]
 		listInfoRouters.POST("/modifyMain", list.ListController{}.ModifyMainStatus) // 取消/添加重点标记
+		listInfoRouters.GET("/detail", list.ListController{}.ResumeDetail)          // 获取简历详情
+		listInfoRouters.GET("/delete", list.ListController{}.ResumeDelete)          // 删除个人信息
+		listInfoRouters.GET("/deleted", list.ListController{}.ResumeDeleted)        // 获取已经删除个人的信息
 	}
 }

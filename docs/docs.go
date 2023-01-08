@@ -80,7 +80,7 @@ const docTemplate = `{
         },
         "/list/addUserResume": {
             "post": {
-                "description": "do ping",
+                "description": "do ping\n/list/addUserResume",
                 "consumes": [
                     "application/json"
                 ],
@@ -196,6 +196,70 @@ const docTemplate = `{
                 }
             }
         },
+        "/list/delete": {
+            "get": {
+                "description": "{ id: 1}\nurl: /list/detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "简历详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/detail": {
+            "get": {
+                "description": "{ id: 1}\nurl: /list/detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "简历详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/list/mainResume": {
             "get": {
                 "description": "{ \"page\": 1, \"pageSize\": 10 }",
@@ -231,7 +295,7 @@ const docTemplate = `{
                 "tags": [
                     "简历相关"
                 ],
-                "summary": "取消/添加重点标记 0取消 1 添加",
+                "summary": "取消/添加重点标记 false取消 true 添加",
                 "parameters": [
                     {
                         "type": "string",
@@ -283,7 +347,7 @@ const docTemplate = `{
         },
         "/list/upload": {
             "post": {
-                "description": "do ping",
+                "description": "/list/upload",
                 "consumes": [
                     "application/json"
                 ],
@@ -422,7 +486,7 @@ const docTemplate = `{
             }
         },
         "/sendMail": {
-            "get": {
+            "post": {
                 "description": "do ping",
                 "tags": [
                     "公共方法"
@@ -459,7 +523,7 @@ const docTemplate = `{
                 "tags": [
                     "admin方法"
                 ],
-                "summary": "获取系统内所有的用户",
+                "summary": "管理员手动添加用户",
                 "responses": {
                     "200": {
                         "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
