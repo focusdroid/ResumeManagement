@@ -437,6 +437,11 @@ func (list ListController) ResumeDelete(c *gin.Context) {
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /list/deleted [get]
-func (list ListController) ResumeDeleted(c *gin.H) {
-
+func (list ListController) ResumeDeleted(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"data":    gin.H{},
+		"message": "success",
+	})
+	return
 }

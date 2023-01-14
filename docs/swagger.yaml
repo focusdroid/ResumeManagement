@@ -146,6 +146,21 @@ paths:
       summary: 简历详情
       tags:
       - 简历相关
+  /list/deleted:
+    get:
+      consumes:
+      - application/json
+      description: 'url: /list/deleted'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取已经删除的个人信息
+      tags:
+      - 简历相关
   /list/detail:
     get:
       consumes:

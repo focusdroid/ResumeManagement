@@ -228,6 +228,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/list/deleted": {
+            "get": {
+                "description": "url: /list/deleted",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历相关"
+                ],
+                "summary": "获取已经删除的个人信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/list/detail": {
             "get": {
                 "description": "{ id: 1}\nurl: /list/detail",

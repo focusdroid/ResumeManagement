@@ -8,6 +8,11 @@ import (
 	"time"
 )
 
+var (
+	Userid string
+	Email  string
+)
+
 func InitMiddleware(c *gin.Context) {
 	url := c.Request.RequestURI
 	isNExt := helper.JwtVerify(url)
@@ -44,4 +49,5 @@ func InitMiddleware(c *gin.Context) {
 		c.Abort()
 		return
 	}
+	fmt.Println("middle")
 }
