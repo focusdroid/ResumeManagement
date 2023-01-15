@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	Userid string
-	Email  string
+	CurrentUserid string
+	CurrentEmail  string
 )
 
 func InitMiddleware(c *gin.Context) {
@@ -39,6 +39,10 @@ func InitMiddleware(c *gin.Context) {
 		c.Abort()
 		return
 	}
+	userinfo, _ := helper.AnalysisTokenGetUserInfo(c)
+	fmt.Println("userinfo", userinfo)
+	CurrentUserid = userinfo.UserID
+	CurrentEmail = userinfo.Email
 	currentTime := time.Now().Unix()
 	fmt.Println(currentTime, claims.ExpiresAt)
 	if currentTime > claims.ExpiresAt {
@@ -49,5 +53,5 @@ func InitMiddleware(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	fmt.Println("middle")
+
 }

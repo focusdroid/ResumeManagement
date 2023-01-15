@@ -15,6 +15,7 @@ type Resume struct {
 	Gender              string `gorm:"column:gender;type:varchar(50);" db:"column:gender" form:"gender" json:"gender" comment:"简历人员性别"`
 	Phone               string `gorm:"column:phone;type:varchar(11);" db:"column:phone" form:"phone" json:"phone" comment:"候选人手机号"`
 	Email               string `gorm:"column:email;type:varchar(255);" db:"column:email" json:"email" form:"email" comment:"候选人邮箱"`
+	UploadUserEmail     string `gorm:"column:upload_user_email;type:varchar(255);" db:"column:upload_user_email" json:"upload_user_email" form:"email" comment:"管理人员邮箱"`
 	Jobbed              string `gorm:"column:jobbed;type:varchar(50);" db:"column:jobbed" form:"jobbed" json:"jobbed" comment:"岗位"`
 	Level               string `gorm:"column:level;type:varchar(50);" db:"column:level" form:"level" json:"level" comment:"级别"`
 	TargetCompany       string `gorm:"column:target_company;type:varchar(50);" db:"column:target_company" form:"target_company" json:"target_company" comment:"目标公司"`

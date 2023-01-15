@@ -2,6 +2,7 @@ package list
 
 import (
 	"ResumeManagement/helper"
+	"ResumeManagement/middleware"
 	"ResumeManagement/models"
 	"fmt"
 	"github.com/astaxie/beego/httplib"
@@ -57,10 +58,11 @@ func (list ListController) ResumeList(c *gin.Context) {
 		resumeList []models.ResumeInterface
 		errs       error
 	)
+	fmt.Println("middleware.CurrentEmail", middleware.CurrentEmail)
 	if name == "" && email == "" {
-		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	} else {
-		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	}
 	if errs != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -184,7 +186,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 		return
 	}
 	var searchData models.Resume
-	err := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("is_delete", 0).First(&searchData).Error
+	err := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).First(&searchData).Error
 	fmt.Println("------------", status, searchData.Follow)
 	if statusBool == searchData.Follow {
 		c.JSON(http.StatusOK, gin.H{
@@ -194,7 +196,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 		})
 		return
 	}
-	updateError := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("is_delete", 0).Update("Follow", statusBool).Error
+	updateError := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).Update("Follow", statusBool).Error
 	if updateError != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusOK, gin.H{
@@ -429,7 +431,7 @@ func (list ListController) ResumeDelete(c *gin.Context) {
 }
 
 // ResumeDeleted
-// @Tags 简历相关
+// @Tags 管理员(admin)方法
 // @Summary 获取已经删除的个人信息
 // @Description
 // @Description url: /list/deleted
@@ -438,6 +440,24 @@ func (list ListController) ResumeDelete(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /list/deleted [get]
 func (list ListController) ResumeDeleted(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"data":    gin.H{},
+		"message": "success",
+	})
+	return
+}
+
+// UpdateResumeInfo
+// @Tags 简历方法
+// @Summary 修改简历库个人信息
+// @Description
+// @Description url: /list/updateInfo
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /list/updateInfo [get]
+func (list ListController) UpdateResumeInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
 		"data":    gin.H{},

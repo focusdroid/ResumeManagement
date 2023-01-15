@@ -160,7 +160,7 @@ paths:
             type: string
       summary: 获取已经删除的个人信息
       tags:
-      - 简历相关
+      - admin方法
   /list/detail:
     get:
       consumes:

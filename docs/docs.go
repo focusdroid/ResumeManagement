@@ -238,7 +238,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "admin方法"
                 ],
                 "summary": "获取已经删除的个人信息",
                 "responses": {

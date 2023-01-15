@@ -16,6 +16,7 @@ func ListInfoRouters(r *gin.Engine) {
 		listInfoRouters.POST("/modifyMain", list.ListController{}.ModifyMainStatus) // 取消/添加重点标记
 		listInfoRouters.GET("/detail", list.ListController{}.ResumeDetail)          // 获取简历详情
 		listInfoRouters.GET("/delete", list.ListController{}.ResumeDelete)          // 删除个人信息
-		listInfoRouters.GET("/deleted", list.ListController{}.ResumeDeleted)        // 获取已经删除个人的信息
+		listInfoRouters.GET("/deleted", list.ListController{}.ResumeDeleted)        // 获取已经删除简历信息(管理员权限)
+		listInfoRouters.POST("/updateInfo", list.ListController{}.UpdateResumeInfo) // 更新简历信息
 	}
 }
