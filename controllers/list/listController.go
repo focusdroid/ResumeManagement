@@ -14,7 +14,7 @@ import (
 type ListController struct{}
 
 // GetBacklogList
-// @Tags 简历相关
+// @Tags 简历方法
 // @Summary 获取简历列表接口
 // @Description do ping
 // @Accept json
@@ -87,7 +87,7 @@ func (list ListController) ResumeList(c *gin.Context) {
 }
 
 // MainResumeList
-// @Tags 简历相关
+// @Tags 简历方法
 // @Summary 获取重点关注人群简历列表接口
 // @Description { "page": 1, "pageSize": 10 }
 // @Accept json
@@ -143,7 +143,7 @@ func (list ListController) MainResumeList(c *gin.Context) {
 }
 
 // ModifyMainStatus
-// @Tags 简历相关
+// @Tags 简历方法
 // @Summary 取消/添加重点标记 false取消 true 添加
 // @Param status query string true "true/false"
 // @Param id query string true "id"
@@ -214,7 +214,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 }
 
 // AddUserResume
-// @Tags 简历相关
+// @Tags 简历方法
 // @Summary 添加简历和用户信息
 // @Param name query string true "name"
 // @Param email query string true "email"
@@ -353,7 +353,7 @@ func (list ListController) Upload(c *gin.Context) {
 }
 
 // ResumeDetail
-// @Tags 简历相关
+// @Tags 简历方法
 // @Summary 简历详情
 // @Param id query int true "id"
 // @Description { id: 1}
@@ -393,7 +393,7 @@ func (list ListController) ResumeDetail(c *gin.Context) {
 }
 
 // ResumeDelete
-// @Tags 简历相关
+// @Tags 简历方法
 // @Summary 简历详情
 // @Param id query int true "id"
 // @Description { id: 1}

@@ -12,7 +12,7 @@ import (
 type UserController struct{}
 
 // UserList
-// @Tags admin方法
+// @Tags 管理员(admin)方法
 // @Summary 获取系统内所有的用户
 // @Description do ping
 // @Accept json
@@ -89,13 +89,17 @@ func (user UserController) UserList(c *gin.Context) {
 }
 
 // AddUser
-// @Tags admin方法
+// @Tags 管理员(admin)方法
 // @Summary 管理员手动添加用户
 // @Description do ping
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /user/userList [get]
+// @Router /user/addUser [get]
 func (user UserController) AddUser(c *gin.Context) {
-
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "success",
+		"data":    "",
+	})
 }

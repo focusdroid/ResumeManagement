@@ -122,7 +122,7 @@ paths:
             type: string
       summary: 添加简历和用户信息
       tags:
-      - 简历相关
+      - 简历方法
   /list/delete:
     get:
       consumes:
@@ -145,7 +145,7 @@ paths:
             type: string
       summary: 简历详情
       tags:
-      - 简历相关
+      - 简历方法
   /list/deleted:
     get:
       consumes:
@@ -160,7 +160,7 @@ paths:
             type: string
       summary: 获取已经删除的个人信息
       tags:
-      - admin方法
+      - 管理员(admin)方法
   /list/detail:
     get:
       consumes:
@@ -183,7 +183,7 @@ paths:
             type: string
       summary: 简历详情
       tags:
-      - 简历相关
+      - 简历方法
   /list/mainResume:
     get:
       consumes:
@@ -198,7 +198,7 @@ paths:
             type: string
       summary: 获取重点关注人群简历列表接口
       tags:
-      - 简历相关
+      - 简历方法
   /list/modifyMain:
     post:
       consumes:
@@ -224,7 +224,7 @@ paths:
             type: string
       summary: 取消/添加重点标记 false取消 true 添加
       tags:
-      - 简历相关
+      - 简历方法
   /list/resume:
     get:
       consumes:
@@ -239,7 +239,22 @@ paths:
             type: string
       summary: 获取简历列表接口
       tags:
-      - 简历相关
+      - 简历方法
+  /list/updateInfo:
+    get:
+      consumes:
+      - application/json
+      description: 'url: /list/updateInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 修改简历库个人信息
+      tags:
+      - 简历方法
   /list/upload:
     post:
       consumes:
@@ -350,7 +365,7 @@ paths:
       summary: 邮箱获取验证码
       tags:
       - 公共方法
-  /user/userList:
+  /user/addUser:
     get:
       consumes:
       - application/json
@@ -364,5 +379,20 @@ paths:
             type: string
       summary: 管理员手动添加用户
       tags:
-      - admin方法
+      - 管理员(admin)方法
+  /user/userList:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取系统内所有的用户
+      tags:
+      - 管理员(admin)方法
 swagger: "2.0"

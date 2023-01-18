@@ -88,7 +88,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "简历方法"
                 ],
                 "summary": "添加简历和用户信息",
                 "parameters": [
@@ -206,7 +206,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "简历方法"
                 ],
                 "summary": "简历详情",
                 "parameters": [
@@ -238,7 +238,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin方法"
+                    "管理员(admin)方法"
                 ],
                 "summary": "获取已经删除的个人信息",
                 "responses": {
@@ -261,7 +261,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "简历方法"
                 ],
                 "summary": "简历详情",
                 "parameters": [
@@ -293,7 +293,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "简历方法"
                 ],
                 "summary": "获取重点关注人群简历列表接口",
                 "responses": {
@@ -316,7 +316,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "简历方法"
                 ],
                 "summary": "取消/添加重点标记 false取消 true 添加",
                 "parameters": [
@@ -355,9 +355,32 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "简历相关"
+                    "简历方法"
                 ],
                 "summary": "获取简历列表接口",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/updateInfo": {
+            "get": {
+                "description": "url: /list/updateInfo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "简历方法"
+                ],
+                "summary": "修改简历库个人信息",
                 "responses": {
                     "200": {
                         "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
@@ -534,6 +557,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/addUser": {
+            "get": {
+                "description": "do ping",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "管理员(admin)方法"
+                ],
+                "summary": "管理员手动添加用户",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/userList": {
             "get": {
                 "description": "do ping",
@@ -544,9 +590,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin方法"
+                    "管理员(admin)方法"
                 ],
-                "summary": "管理员手动添加用户",
+                "summary": "获取系统内所有的用户",
                 "responses": {
                     "200": {
                         "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
