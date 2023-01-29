@@ -60,9 +60,9 @@ func (list ListController) ResumeList(c *gin.Context) {
 	)
 	fmt.Println("middleware.CurrentEmail", middleware.CurrentEmail)
 	if name == "" && email == "" {
-		errs = models.DB.Model(models.Resume{}).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	} else {
-		errs = models.DB.Model(models.Resume{}).Where("name= ? or email = ? ", name, email).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Where("name= ? or email = ? ", name, email).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
 	}
 	if errs != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -120,7 +120,7 @@ func (list ListController) MainResumeList(c *gin.Context) {
 	}
 	pageNumber := (page - 1) * pageSize
 	var mainResumeList []models.ResumeInterface
-	findErr := models.DB.Model(models.Resume{}).Where("follow", 1).Where("is_delete", 0).Offset(pageNumber).Limit(pageSize).Find(&mainResumeList).Error
+	findErr := models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Where("follow", 1).Offset(pageNumber).Limit(pageSize).Find(&mainResumeList).Error
 	if findErr != nil {
 		fmt.Println("findErr", findErr)
 		c.JSON(http.StatusOK, gin.H{
@@ -186,8 +186,8 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 		return
 	}
 	var searchData models.Resume
-	err := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("upload_user_email = ?", middleware.CurrentEmail).Where("is_delete", 0).First(&searchData).Error
-	fmt.Println("------------", status, searchData.Follow)
+	err := models.DB.Model(models.Resume{}).Where("id = ?", id).Where("is_delete", 0).First(&searchData).Error
+	fmt.Println("------------", status, statusBool, searchData.Follow)
 	if statusBool == searchData.Follow {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
@@ -394,7 +394,7 @@ func (list ListController) ResumeDetail(c *gin.Context) {
 
 // ResumeDelete
 // @Tags 简历方法
-// @Summary 简历详情
+// @Summary 删除简历
 // @Param id query int true "id"
 // @Description { id: 1}
 // @Description url: /list/detail

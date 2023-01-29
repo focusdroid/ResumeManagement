@@ -1,5 +1,6 @@
 
 ### use go module
+这是一个简历管理系统后端使用golang，暂时还没有时间写md,有兴趣可以看看这个项目和GO项目[react项目](https://github.com/focusdroid/react-ts-resume) [Golang项目链接](https://github.com/focusdroid/ResumeManagement)
 使用到的第三方包
 ```
 go get -u github.com/gin-gonic/gin

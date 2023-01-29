@@ -6,17 +6,30 @@ import (
 
 /*
 简历表
+级别
+1 实习生
+2 初级
+3 中级
+4 高级
+5 资深
+6 专家
+7 资深专家
+8 主管
+9 经理
+10 总经理
+11 董事长
 */
 
 type Resume struct {
 	gorm.Model
 	UserId              string `gorm:"column:user_id;type:varchar(255);" db:"column:user_id" json:"user_id" form:"user_id" comment:"用户id默认使用邮箱"`
 	Name                string `gorm:"column:name;type:varchar(50);" db:"column:name" form:"name" json:"name" comment:"简历人员姓名"`
-	Gender              string `gorm:"column:gender;type:varchar(50);" db:"column:gender" form:"gender" json:"gender" comment:"简历人员性别"`
+	Gender              string `gorm:"column:gender;type:varchar(50);" db:"column:gender" form:"gender" json:"gender" comment:"简历人员性别Female/Male,M男F女"`
 	Phone               string `gorm:"column:phone;type:varchar(11);" db:"column:phone" form:"phone" json:"phone" comment:"候选人手机号"`
 	Email               string `gorm:"column:email;type:varchar(255);" db:"column:email" json:"email" form:"email" comment:"候选人邮箱"`
 	UploadUserEmail     string `gorm:"column:upload_user_email;type:varchar(255);" db:"column:upload_user_email" json:"upload_user_email" form:"email" comment:"管理人员邮箱"`
 	Jobbed              string `gorm:"column:jobbed;type:varchar(50);" db:"column:jobbed" form:"jobbed" json:"jobbed" comment:"岗位"`
+	JobbedYear          int    `gorm:"column:jobbed_year;tinyint;" db:"column:jobbed_year" form:"jobbed_year" json:"jobbed_year" comment:"工作几年"`
 	Level               string `gorm:"column:level;type:varchar(50);" db:"column:level" form:"level" json:"level" comment:"级别"`
 	TargetCompany       string `gorm:"column:target_company;type:varchar(50);" db:"column:target_company" form:"target_company" json:"target_company" comment:"目标公司"`
 	FirstContactTime    string `gorm:"column:first_contact_time;type:varchar(50);" db:"column:first_contact_time" form:"first_contact_time" json:"first_contact_time" comment:"首次联系时间"`
@@ -40,6 +53,7 @@ type ResumeInterface struct {
 	Phone               string `json:"phone"`
 	Email               string `json:"email"`
 	Jobbed              string `json:"jobbed"`
+	JobbedYear          int    `json:"jobbed_year"`
 	Level               string `json:"level"`
 	TargetCompany       string `json:"target_company"`
 	FirstContactTime    string `json:"first_contact_time"`

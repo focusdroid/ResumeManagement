@@ -143,7 +143,7 @@ paths:
           description: '{"code":"200", "message":"", "data":""}'
           schema:
             type: string
-      summary: 简历详情
+      summary: 删除简历
       tags:
       - 简历方法
   /list/deleted:

@@ -208,7 +208,7 @@ const docTemplate = `{
                 "tags": [
                     "简历方法"
                 ],
-                "summary": "简历详情",
+                "summary": "删除简历",
                 "parameters": [
                     {
                         "type": "integer",
