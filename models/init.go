@@ -22,6 +22,12 @@ func Init() *gorm.DB {
 	//DB.Migrator().DropColumn(&User{}, "IsAdmins")
 	//DB.Migrator().DropColumn(&User{}, "IsAdmin")
 	fmt.Println("数据库连接成功!")
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Println(err, "可能是数据库创建问题")
+		}
+	}()
 	return DB
 
 }
