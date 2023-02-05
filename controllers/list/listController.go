@@ -215,7 +215,7 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 
 // AddUserResume
 // @Tags 简历方法
-// @Summary 添加简历和用户信息
+// @Summary 添加简历
 // @Param name query string true "name"
 // @Param email query string true "email"
 // @Param resumeUrl query string true "resumeUrl"
@@ -270,7 +270,15 @@ func (list ListController) AddUserResume(c *gin.Context) {
 		})
 		return
 	}
-
+	token := c.GetHeader("token")
+	userinfo, infoerr := helper.ParseToken(c, token)
+	if infoerr != nil {
+		fmt.Println(infoerr)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "获取信息失败，请重新上传",
+		})
+	}
 	resumeInfo := models.Resume{
 		Name:                name,
 		Phone:               phone,
@@ -287,6 +295,7 @@ func (list ListController) AddUserResume(c *gin.Context) {
 		PersonCharge:        personCharge,
 		Remarks:             remarks,
 		ResumeUrl:           resumeUrl,
+		UploadUserEmail:     userinfo.Email,
 	}
 	err := models.DB.Model(models.Resume{}).Create(&resumeInfo).Error
 	if err != nil {

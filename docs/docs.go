@@ -465,7 +465,7 @@ const docTemplate = `{
                 "tags": [
                     "公共方法"
                 ],
-                "summary": "刷新token",
+                "summary": "验证token",
                 "parameters": [
                     {
                         "type": "string",

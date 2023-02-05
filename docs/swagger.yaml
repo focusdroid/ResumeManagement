@@ -314,7 +314,7 @@ paths:
           description: '{"code":"200", "message":"", "data":""}'
           schema:
             type: string
-      summary: 刷新token
+      summary: 验证token
       tags:
       - 公共方法
   /register:
