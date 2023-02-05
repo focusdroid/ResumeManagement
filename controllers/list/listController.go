@@ -316,12 +316,12 @@ func (list ListController) Upload(c *gin.Context) {
 	fmt.Println("上传文件interface start")
 	var obj interface{}
 	//req := httplib.Post("http://192.168.1.17:8080/upload")
-	req := httplib.Post("http://192.168.1.17:8080/group1")
+	req := httplib.Post("http://www.asmie.live:8080")
 	fmt.Println("req", req)
-	//req.PostFile("file", "filename") //注意不是全路径
-	//req.Param("output", "json")
-	//req.Param("scene", "default")
-	//req.Param("path", "")
+	//req.PostFile("file", "upload") //注意不是全路径
+	req.Param("output", "json")
+	req.Param("scene", "default")
+	req.Param("path", "/group/upload")
 	req.ToJSON(&obj)
 	fmt.Print(obj)
 	c.JSON(http.StatusOK, gin.H{

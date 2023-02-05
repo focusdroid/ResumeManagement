@@ -14,5 +14,6 @@ func ApiRouters(r *gin.Engine) {
 		apiRouter.POST("/register", api.APIController{}.Register) // 注册
 		apiRouter.POST("/sendMail", api.APIController{}.SendMail) //
 		apiRouter.GET("/refreshToken", api.APIController{}.RefreshToken)
+		apiRouter.GET("/isLine", api.APIController{}.IsLine)
 	}
 }

@@ -321,3 +321,23 @@ func (api APIController) RefreshToken(c *gin.Context) {
 		"token":   newToken,
 	})
 }
+
+// @Tags 公共方法
+// @Summary 验证token
+// @Param token query string true "token"
+// @Description do ping
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /refreshToken [get]
+func (api APIController) IsLine(c *gin.Context) {
+	userinfo, err := helper.AnalysisTokenGetUserInfo(c)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "2001",
+			"message": "token未解析出数据",
+		})
+	}
+	fmt.Println("userinfo12313213", userinfo)
+}
