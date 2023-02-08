@@ -265,6 +265,12 @@ func isHave(noVerify []string, url string) bool {
 // 对token进行解析
 func AnalysisTokenGetUserInfo(c *gin.Context) (*UserClaims, error) {
 	token := c.GetHeader("token")
+	if token == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "2001",
+			"message": "未携带token",
+		})
+	}
 	userinfo, err := ParseToken(c, token)
 	return userinfo, err
 }

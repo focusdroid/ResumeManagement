@@ -332,12 +332,19 @@ func (api APIController) RefreshToken(c *gin.Context) {
 // @Router /refreshToken [get]
 func (api APIController) IsLine(c *gin.Context) {
 	userinfo, err := helper.AnalysisTokenGetUserInfo(c)
+	fmt.Println("vvvasdfgasdfv")
+	fmt.Println("userinfo12asdfvasfvAZSVF313213", userinfo)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "2001",
 			"message": "token未解析出数据",
 		})
+		return
 	}
-	fmt.Println("userinfo12313213", userinfo)
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "token在有效内",
+	})
+	return
 }
