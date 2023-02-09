@@ -465,12 +465,94 @@ func (list ListController) ResumeDeleted(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /list/updateInfo [get]
+// @Router /list/updateInfo [post]
 func (list ListController) UpdateResumeInfo(c *gin.Context) {
+	json := make(map[string]string)
+	c.ShouldBindJSON(&json)
+	fmt.Println("json------>", json)
+	id := json["id"]
+	name := json["name"]
+	phone := json["phone"]
+	email := json["email"]
+	gender := json["gender"]
+	employmentIntention := json["employmentIntention"] // 入职意向
+	confirmEnrollment := json["confirmEnrollment"]     // 是否确认入职
+	jobbed := json["jobbed"]                           // 技术岗位
+	level := json["level"]                             // 级别
+	targetCompany := json["targetCompany"]             // 目标公司
+	postSalary := json["postSalary"]                   // 薪资
+	timeInduction := json["timeInduction"]             // 入职时间
+	firstContactTime := json["firstContactTime"]       // 首次联系时间
+	personCharge := json["personCharge"]               // 入职负责人
+	remarks := json["remarks"]                         // 备注
+	resumeUrl := json["resumeUrl"]                     // 简历url
+	if name == "" || email == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "用户名或者邮箱不能为空",
+		})
+		return
+	}
+	if resumeUrl == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "请上传简历之后再提交",
+		})
+		return
+	}
+	token := c.GetHeader("token")
+	userinfo, infoErr := helper.ParseToken(c, token)
+	if infoErr != nil {
+		fmt.Println(infoErr)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "获取信息失败，请重新上传",
+		})
+		return
+	}
+	resumeInfo := models.Resume{
+		Name:                name,
+		Phone:               phone,
+		Email:               email,
+		Gender:              gender,
+		EmploymentIntention: employmentIntention,
+		ConfirmEnrollment:   confirmEnrollment,
+		Jobbed:              jobbed,
+		Level:               level,
+		TargetCompany:       targetCompany,
+		PostSalary:          postSalary,
+		TimeInduction:       timeInduction,
+		FirstContactTime:    firstContactTime,
+		PersonCharge:        personCharge,
+		Remarks:             remarks,
+		ResumeUrl:           resumeUrl,
+		UploadUserEmail:     userinfo.Email,
+	}
+	ids, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println("err", err)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "200",
+			"data":    gin.H{},
+			"message": "id类型异常error",
+			"text":    err,
+		})
+		return
+	}
+	updateError := models.DB.Model(&models.Resume{}).Where("is_delete = ?", 0).Where("id = ?", ids).Updates(resumeInfo).Error
+	if updateError != nil {
+		fmt.Println("updateError", updateError)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "200",
+			"data":    gin.H{},
+			"message": "update error",
+			"text":    updateError,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
 		"data":    gin.H{},
 		"message": "success",
 	})
-	return
 }

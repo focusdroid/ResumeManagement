@@ -63,7 +63,7 @@ type ResumeInterface struct {
 	TimeInduction       string `json:"time_induction"`
 	PersonCharge        string `json:"person_charge"`
 	Follow              bool   `json:"follow"`
-	ResumeUrl           string `json:"resume_url;"`
+	ResumeUrl           string `json:"resume_url"`
 	ResumeStatus        string `json:"resume_status"`
 	Remarks             string `json:"remarks"`
 }
