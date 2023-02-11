@@ -50,7 +50,7 @@ func (back BacklogController) AddBacklog(c *gin.Context) {
 		})
 	}
 	backlogText := json["backlogText"].(string)
-	backlogStatus := json["backlogStatus"].(string)
+	backlogStatus := json["backlogStatus"].(int)
 
 	backlog := models.Backlog{
 		UserId:        users["email"].(string),
@@ -85,8 +85,8 @@ func (back BacklogController) GetBacklogList(c *gin.Context) {
 	user, _ := helper.ParseToken(c, token)
 	fmt.Println(user.Email)
 
-	var backlogList []models.Backlog
-	err := models.DB.Model(models.Backlog{}).Where("user_id = ? && backlog_status != ?", user.Email, "1").Find(&backlogList).Error
+	var backlogList []models.BacklogInterface
+	err := models.DB.Model(models.Backlog{}).Where("user_id = ? && backlog_status != ?", user.Email, 0).Find(&backlogList).Error
 	//err := models.DB.Model(models.Backlog{}).Where("user_id = ?", user.Email).Find(&backlogList).Error
 	if err != nil {
 		fmt.Println(err)
