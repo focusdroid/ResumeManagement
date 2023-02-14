@@ -12,7 +12,7 @@ type BacklogController struct{}
 
 // AddBacklog
 // @Tags 用户相关方法
-// @Summary 编辑待办信息
+// @Summary 新增待办信息
 // @Param backlogText query string true "backlogText"
 // @Param backlogStatus query string true "backlogStatus"
 // @Description do ping
@@ -21,10 +21,25 @@ type BacklogController struct{}
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /backlog/addBacklog [post]
 func (back BacklogController) AddBacklog(c *gin.Context) {
-	token := c.GetHeader("token")
-	user, _ := helper.ParseToken(c, token)
+	json := make(map[string]interface{})
+	c.ShouldBindJSON(&json)
+	if json["backlogText"] == nil || json["backlogText"] == "" || json["backlogStatus"] == nil || json["backlogStatus"] == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "请将信息填写完整",
+		})
+	}
+	user, _ := helper.AnalysisTokenGetUserInfo(c)
 	var users = make(map[string]interface{})
-	models.DB.Model(&models.User{}).Where("email = ?", user.Email).First(&users)
+	err := models.DB.Model(&models.User{}).Where("email = ?", user.Email).First(&users).Error
+	if err != nil {
+		fmt.Println("err", err)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "查询异常",
+		})
+		return
+	}
 	if users == nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
@@ -41,25 +56,17 @@ func (back BacklogController) AddBacklog(c *gin.Context) {
 		return
 	}
 
-	json := make(map[string]interface{})
-	c.ShouldBindJSON(&json)
-	if json["backlogText"] == nil || json["backlogText"] == "" || json["backlogStatus"] == nil || json["backlogStatus"] == "" {
-		c.JSON(http.StatusOK, gin.H{
-			"code":    "-1",
-			"message": "请将信息填写完整",
-		})
-	}
 	backlogText := json["backlogText"].(string)
-	backlogStatus := json["backlogStatus"].(int)
+	//backlogStatus := json["backlogStatus"]
 
 	backlog := models.Backlog{
-		UserId:        users["email"].(string),
-		BacklogText:   backlogText,
-		BacklogStatus: backlogStatus,
+		UserId:      users["email"].(string),
+		BacklogText: backlogText,
 	}
 
-	err := models.DB.Model(models.Backlog{}).Create(&backlog).Error
-	if err != nil {
+	createErr := models.DB.Model(models.Backlog{}).Create(&backlog).Error
+	if createErr != nil {
+		fmt.Println("createErr", createErr)
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"message": "插入数据失败",
@@ -68,7 +75,7 @@ func (back BacklogController) AddBacklog(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
-		"message": "添加信息成功！",
+		"message": "待办信息新增成功！",
 	})
 }
 
