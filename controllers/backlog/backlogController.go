@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"reflect"
 	"strconv"
 )
 
@@ -152,53 +151,32 @@ func (back BacklogController) GetBacklogList(c *gin.Context) {
 func (back BacklogController) ChangeBackStatus(c *gin.Context) {
 	json := make(map[string]int)
 	c.ShouldBindJSON(&json)
-
 	id := json["id"]
 	backlog_status := json["backlog_status"]
 	backlog_type := json["backlog_type"]
-	fmt.Println(id, backlog_status, backlog_type)
-	fmt.Println(reflect.TypeOf(id), reflect.TypeOf(backlog_status), reflect.TypeOf(backlog_type))
-	/*	backlog_status_list := []int{0, 1, 2, 3, 4}
-		backlog_type_list := []int{1, 2}
+	backlog_status_list := []int{0, 1, 2, 3, 4}
+	backlog_type_list := []int{1, 2}
 
-		for key, _ := range backlog_type_list {
-			if backlog_type_list[key] != backlog_type {
-				fmt.Println("参数判断", backlog_type_list[key], key, backlog_type, reflect.TypeOf(key), reflect.TypeOf(backlog_type))
-				c.JSON(http.StatusOK, gin.H{
-					"code":    "-1",
-					"message": "backlog_type该参数不符合要求",
-				})
-				return
-			}
-		}
-		for key, _ := range backlog_status_list {
-			if key != backlog_status {
-				c.JSON(http.StatusOK, gin.H{
-					"code":    "-1",
-					"message": "backlog_status该参数不符合要求",
-				})
-				return
-			}
-		}*/
-	/*var resumeInfo models.Backlog
-	firstInfoErr := models.DB.Model(&models.Backlog{}).Where("backlog_status != ?", 0).Where("id = ?", id).First(&resumeInfo).Error
-	if firstInfoErr != nil {
-		fmt.Println("firstInfoErr", firstInfoErr)
+	backlog_status_bool := helper.FieldInInt(backlog_status, backlog_status_list)
+	if !backlog_status_bool {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
-			"message": "这个id没有相关参数",
+			"message": "backlog_status参数不符合要求",
 		})
 		return
-	}*/
-	/*backlog := reflect.TypeOf(models.Backlog{})
-	if _, ok := backlog.FieldByName("backlog_status"); !ok {
-		fmt.Println()
-	}*/
+	}
+	backlog_type_bool := helper.FieldInInt(backlog_type, backlog_type_list)
+	if !backlog_type_bool {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "backlog_type参数不符合要求",
+		})
+		return
+	}
 	updateBack := models.Backlog{
 		BacklogStatus: backlog_status,
 		BacklogType:   backlog_type,
 	}
-	fmt.Println("backlog_status", backlog_status, "backlog_type", backlog_type)
 	updateErr := models.DB.Model(&models.Backlog{}).Where("backlog_status != ?", 0).Where("id = ?", id).Select("BacklogStatus", "BacklogType").Updates(updateBack).Error
 	if updateErr != nil {
 		fmt.Println("updateErr", updateErr)

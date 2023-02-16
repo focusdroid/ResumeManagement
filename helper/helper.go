@@ -275,6 +275,26 @@ func AnalysisTokenGetUserInfo(c *gin.Context) (*UserClaims, error) {
 	return userinfo, err
 }
 
+// 判断元素是否在数组或切片中
+func FieldInInt(target int, aggregate []int) bool {
+	for _, element := range aggregate {
+		if target == element {
+			return true
+		}
+	}
+	return false
+}
+
+// 判断元素是否在数组或切片中
+func FieldInString(target string, aggregate []string) bool {
+	for _, element := range aggregate {
+		if target == element {
+			return true
+		}
+	}
+	return false
+}
+
 // 异常返回封装
 func AbnormalEncapsulation(c *gin.Context, message string) {
 	c.JSON(http.StatusOK, gin.H{
