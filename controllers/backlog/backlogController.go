@@ -115,7 +115,7 @@ func (back BacklogController) GetBacklogList(c *gin.Context) {
 	if backlog_type == 1 { // 创建的使用创建时间排序
 		order_text = "created_at desc"
 	} else if backlog_type == 2 { // 已完成的使用最后的更新时间排序
-		order_text = "updated desc"
+		order_text = "updated_at desc"
 	}
 	var backlogList []models.BacklogInterface
 	err := models.DB.Model(models.Backlog{}).Where("user_id = ? and backlog_status != ? and backlog_type = ?", user.Email, 0, backlog_type).Order(order_text).Find(&backlogList).Error
@@ -128,7 +128,7 @@ func (back BacklogController) GetBacklogList(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println(backlogList)
+	//fmt.Println(backlogList)
 	c.JSON(http.StatusOK, gin.H{
 		"code":         "200",
 		"message":      "success",
@@ -143,12 +143,12 @@ func (back BacklogController) GetBacklogList(c *gin.Context) {
 // @Description { BacklogStatus: 0/1/2/3/4 } 已删除 0 正常显示1 轻度紧急2 中度紧急3 非常紧急4
 // @Description { BacklogType: 1/2 } 正在待办1,已完成2
 // @Param backlog_type query string true "backlog_type"
-// @Param backlog_status query string true "backlog_type"
+// @Param backlog_status query string true "backlog_status"
 // @Param id query string true "id"
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /backlog/getBacklogList [get]
+// @Router /backlog/changeBackStatus [get]
 func (back BacklogController) ChangeBackStatus(c *gin.Context) {
 	json := make(map[string]int)
 	c.ShouldBindJSON(&json)
@@ -158,27 +158,59 @@ func (back BacklogController) ChangeBackStatus(c *gin.Context) {
 	backlog_type := json["backlog_type"]
 	fmt.Println(id, backlog_status, backlog_type)
 	fmt.Println(reflect.TypeOf(id), reflect.TypeOf(backlog_status), reflect.TypeOf(backlog_type))
-	backlog_status_list := []int{0, 1, 2, 3, 4}
-	backlog_type_list := []int{1, 2}
+	/*	backlog_status_list := []int{0, 1, 2, 3, 4}
+		backlog_type_list := []int{1, 2}
 
-	for key, _ := range backlog_type_list {
-		if key != backlog_type {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    "-1",
-				"message": "该参数不符合要求",
-			})
-			return
+		for key, _ := range backlog_type_list {
+			if backlog_type_list[key] != backlog_type {
+				fmt.Println("参数判断", backlog_type_list[key], key, backlog_type, reflect.TypeOf(key), reflect.TypeOf(backlog_type))
+				c.JSON(http.StatusOK, gin.H{
+					"code":    "-1",
+					"message": "backlog_type该参数不符合要求",
+				})
+				return
+			}
 		}
+		for key, _ := range backlog_status_list {
+			if key != backlog_status {
+				c.JSON(http.StatusOK, gin.H{
+					"code":    "-1",
+					"message": "backlog_status该参数不符合要求",
+				})
+				return
+			}
+		}*/
+	/*var resumeInfo models.Backlog
+	firstInfoErr := models.DB.Model(&models.Backlog{}).Where("backlog_status != ?", 0).Where("id = ?", id).First(&resumeInfo).Error
+	if firstInfoErr != nil {
+		fmt.Println("firstInfoErr", firstInfoErr)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "这个id没有相关参数",
+		})
+		return
+	}*/
+	/*backlog := reflect.TypeOf(models.Backlog{})
+	if _, ok := backlog.FieldByName("backlog_status"); !ok {
+		fmt.Println()
+	}*/
+	updateBack := models.Backlog{
+		BacklogStatus: backlog_status,
+		BacklogType:   backlog_type,
 	}
-	for key, _ := range backlog_status_list {
-		if key != backlog_status {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    "-1",
-				"message": "该参数不符合要求",
-			})
-			return
-		}
+	fmt.Println("backlog_status", backlog_status, "backlog_type", backlog_type)
+	updateErr := models.DB.Model(&models.Backlog{}).Where("backlog_status != ?", 0).Where("id = ?", id).Select("BacklogStatus", "BacklogType").Updates(updateBack).Error
+	if updateErr != nil {
+		fmt.Println("updateErr", updateErr)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "数据库更新异常",
+		})
+		return
 	}
-	models.DB.Model(&models.Backlog{})
-
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "success",
+	})
+	return
 }
