@@ -28,7 +28,7 @@ const docTemplate = `{
                 "tags": [
                     "用户相关方法"
                 ],
-                "summary": "编辑待办信息",
+                "summary": "新增待办信息",
                 "parameters": [
                     {
                         "type": "string",
@@ -36,11 +36,50 @@ const docTemplate = `{
                         "name": "backlogText",
                         "in": "query",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/backlog/changeBackStatus": {
+            "get": {
+                "description": "{ BacklogStatus: 0/1/2/3/4 } 已删除 0 正常显示1 轻度紧急2 中度紧急3 非常紧急4\n{ BacklogType: 1/2 } 正在待办1,已完成2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关方法"
+                ],
+                "summary": "删除/置为已完成/置为未完成",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "backlog_type",
+                        "name": "backlog_type",
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
-                        "description": "backlogStatus",
-                        "name": "backlogStatus",
+                        "description": "backlog_status",
+                        "name": "backlog_status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
                         "in": "query",
                         "required": true
                     }
@@ -57,7 +96,7 @@ const docTemplate = `{
         },
         "/backlog/getBacklogList": {
             "get": {
-                "description": "do ping",
+                "description": "{ backlog_type: 1/2 } 1 正在待办  2 已经完成(有效期1个月内的，按照创建时间获取)",
                 "consumes": [
                     "application/json"
                 ],
@@ -68,6 +107,15 @@ const docTemplate = `{
                     "用户相关方法"
                 ],
                 "summary": "获取待办信息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "backlog_type",
+                        "name": "backlog_type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
@@ -90,7 +138,7 @@ const docTemplate = `{
                 "tags": [
                     "简历方法"
                 ],
-                "summary": "添加简历和用户信息",
+                "summary": "添加简历",
                 "parameters": [
                     {
                         "type": "string",
@@ -369,7 +417,7 @@ const docTemplate = `{
             }
         },
         "/list/updateInfo": {
-            "get": {
+            "post": {
                 "description": "url: /list/updateInfo",
                 "consumes": [
                     "application/json"

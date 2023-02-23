@@ -12,9 +12,37 @@ paths:
         name: backlogText
         required: true
         type: string
-      - description: backlogStatus
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 新增待办信息
+      tags:
+      - 用户相关方法
+  /backlog/changeBackStatus:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        { BacklogStatus: 0/1/2/3/4 } 已删除 0 正常显示1 轻度紧急2 中度紧急3 非常紧急4
+        { BacklogType: 1/2 } 正在待办1,已完成2
+      parameters:
+      - description: backlog_type
         in: query
-        name: backlogStatus
+        name: backlog_type
+        required: true
+        type: string
+      - description: backlog_status
+        in: query
+        name: backlog_status
+        required: true
+        type: string
+      - description: id
+        in: query
+        name: id
         required: true
         type: string
       produces:
@@ -24,14 +52,20 @@ paths:
           description: '{"code":"200", "message":"", "data":""}'
           schema:
             type: string
-      summary: 编辑待办信息
+      summary: 删除/置为已完成/置为未完成
       tags:
       - 用户相关方法
   /backlog/getBacklogList:
     get:
       consumes:
       - application/json
-      description: do ping
+      description: '{ backlog_type: 1/2 } 1 正在待办  2 已经完成(有效期1个月内的，按照创建时间获取)'
+      parameters:
+      - description: backlog_type
+        in: query
+        name: backlog_type
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -120,7 +154,7 @@ paths:
           description: '{"code":"200", "message":"", "data":""}'
           schema:
             type: string
-      summary: 添加简历和用户信息
+      summary: 添加简历
       tags:
       - 简历方法
   /list/delete:
@@ -241,7 +275,7 @@ paths:
       tags:
       - 简历方法
   /list/updateInfo:
-    get:
+    post:
       consumes:
       - application/json
       description: 'url: /list/updateInfo'

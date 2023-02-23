@@ -1,7 +1,18 @@
-
 ### use go module
-这是一个简历管理系统后端使用golang，暂时还没有时间写md,有兴趣可以看看这个项目和GO项目[react项目](https://github.com/focusdroid/react-ts-resume) [Golang项目链接](https://github.com/focusdroid/ResumeManagement)
+这是一个简历管理系统后端使用golang，暂时还没有时间写md,
+有兴趣可以看看这个项目和GO项目[react项目](https://github.com/focusdroid/react-ts-resume) [Golang项目链接](https://github.com/focusdroid/ResumeManagement)
 使用到的第三方包
+
+### go version
+- golang版本使用1.19.5,目前最新的版本是1.2
+
+### 本地部署须知
+ 1. 本地部署需要安装 [go1.19.5版本](https://go.dev/dl/) 选择指定版本进行本地安装，使用go env查看是否正确安装
+ 2. 安装本地或远程的mysql数据库，并创建名为resume的数据库 charset=utf8
+ 3. 本地安装redis并启动redis(window电脑有的版本需要手动启动redis-serve)一般是默认启动的
+ 4. 以上安装成功之后运行 `go run main.go` 建议安装[fresh](https://github.com/gravityblast/fresh)
+ 5. 使用 `swag init` 本地使用swagger查看接口文档 `http://127.0.0.1:8080/swagger/index.html#/`
+
 
 ### 项目目录
 - 根目录存放项目启动文件(main.go)和文件说明
