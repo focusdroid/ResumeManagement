@@ -7,7 +7,7 @@ import (
 )
 
 func ListInfoRouters(r *gin.Engine) {
-	listInfoRouters := r.Group("/list", middleware.InitMiddleware)
+	listInfoRouters := r.Group("/list", middleware.InitMiddleware, middleware.InitMiddlewareBlacklist)
 	{
 		listInfoRouters.GET("/resume", list.ListController{}.ResumeList)            // 获取简历列表
 		listInfoRouters.GET("/mainResume", list.ListController{}.MainResumeList)    // 获取重点关注人群简历

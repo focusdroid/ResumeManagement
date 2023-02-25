@@ -28,6 +28,10 @@
 - tmp目录是使用[fresh](https://github.com/gravityblast/fresh)之后自动生成的运行目录。ps: go get github.com/pilu/fresh@latest
 - go.mod是go项目在升级之后go包版本管理目录，如果切换golang版本之后需要删除之后重新init之后tidy
 
+### `版本分支说明`
+```text
+featrue20230225 分支添加黑名单功能
+```
 
 ### `golang项目使用到的包地址`
 ```text

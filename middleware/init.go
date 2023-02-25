@@ -55,3 +55,7 @@ func InitMiddleware(c *gin.Context) {
 	}
 
 }
+
+func InitMiddlewareBlacklist(c *gin.Context) { // 黑名单
+	fmt.Println(c, "--------------------------------------InitMiddleware2InitMiddleware2InitMiddleware2")
+}

@@ -8,7 +8,7 @@ import (
 
 func ApiRouters(r *gin.Engine) {
 	//docs.SwaggerInfo.BasePath = "/api/v1"
-	apiRouter := r.Group("", middleware.InitMiddleware)
+	apiRouter := r.Group("", middleware.InitMiddleware, middleware.InitMiddlewareBlacklist)
 	{
 		apiRouter.POST("/login", api.APIController{}.Login)       // 登录
 		apiRouter.POST("/register", api.APIController{}.Register) // 注册
