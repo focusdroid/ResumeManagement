@@ -2,9 +2,11 @@ package middleware
 
 import (
 	"ResumeManagement/helper"
+	"ResumeManagement/models"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -57,5 +59,49 @@ func InitMiddleware(c *gin.Context) {
 }
 
 func InitMiddlewareBlacklist(c *gin.Context) { // 黑名单
-	fmt.Println(c, "--------------------------------------InitMiddleware2InitMiddleware2InitMiddleware2")
+	userinfo, _ := helper.AnalysisTokenGetUserInfo(c)
+	fmt.Println("userinfo", userinfo)
+	UserID := userinfo.UserID
+	Email := userinfo.Email
+	var backlogList models.BlackListInterface
+	err := models.DB.Model(&models.BlackList{}).Where("email = ? or phone = ?", Email, UserID).Find(&backlogList).Error
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "2002",
+			"message": err,
+		})
+		c.Abort()
+		return
+	}
+	email := backlogList.Email
+	phone := backlogList.Phone
+	emailBool, emailBoolErr := strconv.ParseBool(email)
+	if emailBoolErr != nil {
+		fmt.Println(emailBoolErr)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "2002",
+			"message": emailBoolErr,
+		})
+		c.Abort()
+		return
+	}
+	phoneBool, phoneBoolErr := strconv.ParseBool(phone)
+	if phoneBoolErr != nil {
+		fmt.Println(phoneBoolErr)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "2002",
+			"message": phoneBoolErr,
+		})
+		c.Abort()
+		return
+	}
+	if emailBool || phoneBool {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "2003",
+			"message": "禁止该用户登录系统",
+		})
+		c.Abort()
+		return
+	}
 }
