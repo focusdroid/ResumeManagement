@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -63,8 +62,8 @@ func InitMiddlewareBlacklist(c *gin.Context) { // 黑名单
 	fmt.Println("userinfo", userinfo)
 	UserID := userinfo.UserID
 	Email := userinfo.Email
-	var backlogList models.BlackListInterface
-	err := models.DB.Model(&models.BlackList{}).Where("email = ? or phone = ?", Email, UserID).Find(&backlogList).Error
+	var user models.BlackList
+	err := models.DB.Model(&models.BlackList{}).Where("email = ? or phone = ?", Email, UserID).Find(&user).Error
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusOK, gin.H{
@@ -74,29 +73,10 @@ func InitMiddlewareBlacklist(c *gin.Context) { // 黑名单
 		c.Abort()
 		return
 	}
-	email := backlogList.Email
-	phone := backlogList.Phone
-	emailBool, emailBoolErr := strconv.ParseBool(email)
-	if emailBoolErr != nil {
-		fmt.Println(emailBoolErr)
-		c.JSON(http.StatusOK, gin.H{
-			"code":    "2002",
-			"message": emailBoolErr,
-		})
-		c.Abort()
-		return
-	}
-	phoneBool, phoneBoolErr := strconv.ParseBool(phone)
-	if phoneBoolErr != nil {
-		fmt.Println(phoneBoolErr)
-		c.JSON(http.StatusOK, gin.H{
-			"code":    "2002",
-			"message": phoneBoolErr,
-		})
-		c.Abort()
-		return
-	}
-	if emailBool || phoneBool {
+	email := user.Email
+	phone := user.Phone
+	fmt.Println("------=====email !=phone ...", email != "", phone != "")
+	if email != "" || phone != "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "2003",
 			"message": "禁止该用户登录系统",
