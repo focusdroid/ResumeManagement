@@ -1,12 +1,13 @@
-### use go module
-这是一个简历管理系统后端使用golang，暂时还没有时间写md,
-有兴趣可以看看这个项目和GO项目[react项目](https://github.com/focusdroid/react-ts-resume) [Golang项目链接](https://github.com/focusdroid/ResumeManagement)
-使用到的第三方包
+### `项目简述`
+这是一个简历管理系统后端使用golang \
+有兴趣可以看看这个项目和GO项目[react项目](https://github.com/focusdroid/react-ts-resume) \ [Golang项目链接](https://github.com/focusdroid/ResumeManagement)
+项目使用前后端分离，前端使用react + ts，后端使用golang开发，其中后端功能如下 \ 
+添加简历，标记重点简历，每日待办（添加、编辑），简历编辑，提交简历信息，在线预览简历，删除简历，接口查询，逻辑删除，接口返回，
 
-### go version
+### `go version`
 - golang版本使用1.19.5,目前最新的版本是1.2
 
-### 本地部署须知
+### `本地部署须知`
  1. 本地部署需要安装 [go1.19.5版本](https://go.dev/dl/) 选择指定版本进行本地安装，使用go env查看是否正确安装
  2. 安装本地或远程的mysql数据库，并创建名为resume的数据库 charset=utf8
  3. 本地安装redis并启动redis(window电脑有的版本需要手动启动redis-serve)一般是默认启动的
@@ -14,7 +15,7 @@
  5. 使用 `swag init` 本地使用swagger查看接口文档 `http://127.0.0.1:8080/swagger/index.html#/`
 
 
-### 项目目录
+### `项目目录`
 - 根目录存放项目启动文件(main.go)和文件说明
 - controllers目录下存放各个路由对应的具体功能方法(结构体函数、接口查询、数据库操作、接口数据返回)
 - docs是配置swagger之后存放的目录，这个是有 [go-swagger](https://github.com/go-swagger/go-swagger)自动生成的文件，如果每次修改之后需要重新使用`swag init`重新初始化获取最新的文档
@@ -26,9 +27,9 @@
 - test目录是对项目中需要使用的到功能进行测试，需要使用go中的testing包
 - tmp目录是使用[fresh](https://github.com/gravityblast/fresh)之后自动生成的运行目录。ps: go get github.com/pilu/fresh@latest
 - go.mod是go项目在升级之后go包版本管理目录，如果切换golang版本之后需要删除之后重新init之后tidy
-```
 
-### golang项目使用到的包地址
+
+### `golang项目使用到的包地址`
 ```text
 go get -u github.com/gin-gonic/gin
 go get -u gorm.io/gorm
