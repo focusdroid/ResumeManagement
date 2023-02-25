@@ -19,6 +19,16 @@ type BlackList struct {
 	Phone    string `gorm:"column:phone;type:varchar(11)" db:"column:phone" form:"phone" json:"phone" comment:"电话"`
 }
 
+type BlackListInterface struct {
+	ID       uint   `json:"id"`
+	UserName string `json:"user_name"`
+	Email    string `json:"email"`
+	IP       string `json:"ip"`
+	IPV6     string `json:"ipv6"`
+	UUID     string `json:"uuid"`
+	Phone    string `json:"phone"`
+}
+
 func (backlist BlackList) TableName() string {
 	return "blacklist"
 }

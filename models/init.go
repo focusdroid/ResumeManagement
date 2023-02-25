@@ -17,15 +17,12 @@ func Init() *gorm.DB {
 	if err != nil {
 		fmt.Println(err)
 	}
-	DB.AutoMigrate(&User{}, &Resume{}, &Backlog{})
-	//DB.Migrator().AddColumn(&User{}, "IsAdmin")
-	//DB.Migrator().DropColumn(&User{}, "IsAdmins")
-	//DB.Migrator().DropColumn(&User{}, "IsAdmin")
-	fmt.Println("数据库连接成功!")
+	DB.AutoMigrate(&User{}, &Resume{}, &Backlog{}, &BlackList{})
+	fmt.Println("mysql数据库连接成功!")
 	defer func() {
 		err := recover()
 		if err != nil {
-			fmt.Println(err, "可能是数据库创建问题")
+			fmt.Println(err, "mysql数据库创建问题")
 		}
 	}()
 	return DB
@@ -33,6 +30,12 @@ func Init() *gorm.DB {
 }
 
 func InitRedisDB() *redis.Client {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Println(err, "redis可能是数据库创建问题")
+		}
+	}()
 	return redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "", // no password set
