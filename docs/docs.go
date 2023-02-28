@@ -652,7 +652,7 @@ const docTemplate = `{
             }
         },
         "/user/userinfo": {
-            "post": {
+            "get": {
                 "description": "/user/userinfo",
                 "consumes": [
                     "application/json"

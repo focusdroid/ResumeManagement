@@ -430,7 +430,7 @@ paths:
       tags:
       - 管理员(admin)方法
   /user/userinfo:
-    post:
+    get:
       consumes:
       - application/json
       description: /user/userinfo

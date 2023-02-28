@@ -111,7 +111,7 @@ func (user UserController) AddUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /user/userinfo [post]
+// @Router /user/userinfo [get]
 func (user UserController) UserInfo(c *gin.Context) {
 	users, userError := helper.AnalysisTokenGetUserInfo(c)
 	if userError != nil {
