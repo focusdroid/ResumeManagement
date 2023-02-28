@@ -429,4 +429,19 @@ paths:
       summary: 获取系统内所有的用户
       tags:
       - 管理员(admin)方法
+  /user/userinfo:
+    post:
+      consumes:
+      - application/json
+      description: /user/userinfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取用户信息
+      tags:
+      - 用户相关方法
 swagger: "2.0"

@@ -24,6 +24,7 @@ type User struct {
 	NickName   string     `gorm:"column:nick_name;type:varchar(100)" db:"column:nick_name" form:"nick_name" json:"nick_name" comment:"昵称"`
 	UserStatus string     `gorm:"column:user_status;type:varchar(100)" db:"column:user_status" form:"user_status" json:"user_status" comment:"用户状态0禁止登录1正常2限制查看人员简历"`
 	IsAdmin    bool       `gorm:"column:is_admin;type:tinyint;default:0;" db:"column:is_admin" form:"is_admin" json:"is_admin" comment:"是否是管理员0否1是"`
+	IsDelete   bool       `gorm:"column:is_delete;type:tinyint;default:0;" db:"column:is_delete" form:"is_delete" json:"is_delete" comment:"删除用户true"`
 	LineTime   *time.Time `gorm:"column:line_time" db:"column:line_time" form:"line_time" json:"line_time" comment:"在线时间"`
 }
 
