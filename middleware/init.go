@@ -21,6 +21,7 @@ func InitMiddleware(c *gin.Context) {
 	if isNExt {
 		return
 	}
+	fmt.Println("isNExt2", isNExt, url)
 	token := c.GetHeader("token")
 	fmt.Println(token, token == "")
 	if token == "" {
@@ -58,6 +59,12 @@ func InitMiddleware(c *gin.Context) {
 }
 
 func InitMiddlewareBlacklist(c *gin.Context) { // 黑名单
+	url := c.Request.RequestURI
+	isNExt := helper.JwtVerify(url)
+	fmt.Println("InitMiddlewareBlacklistisNExt", isNExt, url)
+	if isNExt {
+		return
+	}
 	userinfo, _ := helper.AnalysisTokenGetUserInfo(c)
 	fmt.Println("userinfo", userinfo)
 	UserID := userinfo.UserID

@@ -104,6 +104,7 @@ func (api APIController) Login(c *gin.Context) {
 	//password := strings.TrimSpace(json["password"].(string))
 	email := json["email"]
 	password := json["password"]
+	fmt.Println("login", email, password)
 	if email == nil || password == nil || email == "" || password == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "200",
