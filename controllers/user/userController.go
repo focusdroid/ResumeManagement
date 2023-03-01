@@ -140,3 +140,19 @@ func (user UserController) UserInfo(c *gin.Context) {
 	})
 	return
 }
+
+// AddUserInfo
+// @Tags 用户相关方法
+// @Summary 添加用户/修改用户信息
+// @Description /user/addUserInfo
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /user/addUserInfo [get]
+func (user UserController) AddUserInfo(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "success",
+		"data":    gin.H{},
+	})
+}

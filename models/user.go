@@ -16,7 +16,7 @@ type User struct {
 	Phone      string     `gorm:"column:phone;type:varchar(11);" db:"column:phone" form:"phone" json:"phone" comment:"手机号"`
 	Email      string     `gorm:"column:email;type:varchar(255);" db:"column:email" json:"email" form:"email" comment:"邮箱"`
 	Password   string     `gorm:"column:pass_word;type:varchar(100);" db:"column:pass_word" json:"pass_word" form:"pass_word" comment:"密码"`
-	Gender     uint       `gorm:"column:gender;type:varchar(10);" db:"column:gender" form:"gender" json:"gender" comment:"性别"`
+	Gender     uint       `gorm:"column:gender;type:varchar(10);" db:"column:gender" form:"gender" json:"gender" comment:"性别男M女F"`
 	AvatarUrl  string     `gorm:"column:avatar_url;type:varchar(255)" db:"column:avatar_url" form:"avatar_url" json:"avatar_url" comment:"图像"`
 	Country    string     `gorm:"column:country;type:varchar(100);" db:"column:country" form:"country" json:"country" comment:"国家"`
 	Province   string     `gorm:"column:province;type:varchar(100);" db:"column:province" form:"province" json:"province" comment:"省份"`

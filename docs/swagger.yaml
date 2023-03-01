@@ -414,6 +414,21 @@ paths:
       summary: 管理员手动添加用户
       tags:
       - 管理员(admin)方法
+  /user/addUserInfo:
+    get:
+      consumes:
+      - application/json
+      description: /user/addUserInfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 添加用户/修改用户信息
+      tags:
+      - 用户相关方法
   /user/userList:
     get:
       consumes:
