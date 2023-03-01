@@ -255,9 +255,7 @@ func ParseToken(c *gin.Context, tokenString string) (*UserClaims, error) {
 */
 func isHave(noVerify []string, url string) bool {
 	for _, v := range noVerify {
-		if v == url {
-			return true
-		}
+		return v == url
 	}
 	return false
 }
@@ -270,6 +268,7 @@ func AnalysisTokenGetUserInfo(c *gin.Context) (*UserClaims, error) {
 			"code":    "2001",
 			"message": "未携带token",
 		})
+		return nil, nil
 	}
 	userinfo, err := ParseToken(c, token)
 	return userinfo, err
