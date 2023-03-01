@@ -7,9 +7,9 @@ import (
 )
 
 /**
- * @name: focusdroid
+ * @author: focusdroid
  * @description: 用户相关
- * @author: 1.0
+ * @version: 1.0
  * @time：2023-02-28 19:41:00
 **/
 

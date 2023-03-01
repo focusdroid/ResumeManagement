@@ -3,9 +3,9 @@ package models
 import "gorm.io/gorm"
 
 /**
- * @name: focusdroid
+ * @author: focusdroid
  * @description: 字符串权限表
- * @author: 1.0
+ * @version: 1.0
  * @time：2023-03-01 14:11:33
 **/
 type Auth struct {

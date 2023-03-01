@@ -1,9 +1,9 @@
 package models
 
 /**
- * @name:focus droid
+ * @author:focus droid
  * @description: 待办数据库字段
- * @author:1.0
+ * @version: 1.0
  * @time：2023-02-25 16:34:27
 **/
 
