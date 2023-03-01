@@ -2,6 +2,12 @@ package models
 
 import "gorm.io/gorm"
 
+/**
+ * @name: focusdroid
+ * @description: 字符串权限表
+ * @author: 1.0
+ * @time：2023-03-01 14:11:33
+**/
 type Auth struct {
 	gorm.Model
 	User          string `gorm:"type:varchar(255)" from:"user" db:"column:user"  json:"user" comment:"用户名称"`
