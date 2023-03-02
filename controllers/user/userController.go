@@ -166,9 +166,28 @@ func (user UserController) AddUserInfo(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /user/getUserInfo [get]
 func (user UserController) GetUserInfo(c *gin.Context) {
+	users, paraseUserError := helper.AnalysisTokenGetUserInfo(c)
+	if paraseUserError != nil {
+		fmt.Println("paraseUserError", paraseUserError)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "解析用户信息出错",
+			"data":    gin.H{},
+		})
+		return
+	}
+	var userinfo models.UserField
+	findUserError := models.DB.Model(models.User{}).Where("is_delete = ?", 0).Where("email = ?", users.Email).First(&userinfo).Error
+	if findUserError != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": findUserError,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
 		"message": "success",
-		"data":    gin.H{},
+		"data":    userinfo,
 	})
 }

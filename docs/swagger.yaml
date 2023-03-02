@@ -415,7 +415,7 @@ paths:
       tags:
       - 管理员(admin)方法
   /user/addUserInfo:
-    get:
+    post:
       consumes:
       - application/json
       description: /user/addUserInfo
@@ -427,6 +427,21 @@ paths:
           schema:
             type: string
       summary: 添加用户/修改用户信息
+      tags:
+      - 用户相关方法
+  /user/getUserInfo:
+    get:
+      consumes:
+      - application/json
+      description: /user/getUserInfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":"200", "message":"", "data":""}'
+          schema:
+            type: string
+      summary: 获取用户信息
       tags:
       - 用户相关方法
   /user/userList:

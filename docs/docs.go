@@ -629,7 +629,7 @@ const docTemplate = `{
             }
         },
         "/user/addUserInfo": {
-            "get": {
+            "post": {
                 "description": "/user/addUserInfo",
                 "consumes": [
                     "application/json"
@@ -641,6 +641,29 @@ const docTemplate = `{
                     "用户相关方法"
                 ],
                 "summary": "添加用户/修改用户信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/getUserInfo": {
+            "get": {
+                "description": "/user/getUserInfo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关方法"
+                ],
+                "summary": "获取用户信息",
                 "responses": {
                     "200": {
                         "description": "{\"code\":\"200\", \"message\":\"\", \"data\":\"\"}",
