@@ -16,7 +16,12 @@ import (
 	"time"
 )
 
-// 生成验证码
+/**
+ * @author: focusdroid
+ * @description: 生成验证码
+ * @version: 1.0
+ * @time：2023-03-02 18:06:13
+**/
 func GetRand() string {
 	rand.Seed(time.Now().UnixNano())
 	s := ""
@@ -26,7 +31,12 @@ func GetRand() string {
 	return s
 }
 
-// 邮箱发送验证码
+/**
+ * @author: focusdroid
+ * @description: 邮箱发送验证码
+ * @version: 1.0
+ * @time：2023-03-02 18:06:13
+**/
 func SendCode(toUserEmail string, code int) error {
 	e := email.NewEmail()
 	e.From = "Get <focusdroid@163.com>"
@@ -57,7 +67,12 @@ func SendCode(toUserEmail string, code int) error {
 	return nil
 }
 
-// redis缓存
+/**
+ * @author: focusdroid
+ * @description: redis缓存
+ * @version: 1.0
+ * @time：2023-03-02 18:06:13
+**/
 var ctx = context.Background()
 
 func RedisSet(key string, value string) error {
@@ -69,7 +84,12 @@ func RedisSet(key string, value string) error {
 	return nil
 }
 
-// 获取redis值
+/**
+ * @author: focusdroid
+ * @description: 获取redis值
+ * @version: 1.0
+ * @time：2023-03-02 18:06:13
+**/
 func RedisGet(key string) (string, error) {
 	val, err := models.RDB.Get(ctx, key).Result()
 	if err != nil {
@@ -79,7 +99,12 @@ func RedisGet(key string) (string, error) {
 	return val, nil
 }
 
-// 删除redis
+/**
+ * @author: focusdroid
+ * @description: 删除redis
+ * @version: 1.0
+ * @time：2023-03-02 18:06:13
+**/
 func RedisDelete(key string) (string, error) {
 	val, err := models.RDB.Del(ctx, key).Result()
 	if err != nil {
@@ -89,7 +114,12 @@ func RedisDelete(key string) (string, error) {
 	return string(val), nil
 }
 
-// 去除空格
+/**
+ * @author: focusdroid
+ * @description: 去除空格
+ * @version: 1.0
+ * @time：2023-03-02 18:06:13
+**/
 func AutoRemoveSpace(key string) string {
 	if key == "" {
 		return key
@@ -98,6 +128,12 @@ func AutoRemoveSpace(key string) string {
 	return reg.ReplaceAllString(key, "")
 }
 
+/**
+ * @author: focusdorid
+ * @description: token中加密的字段
+ * @version: 1.0
+ * @time：2023-03-02 18:07:32
+**/
 type UserClaims struct {
 	UserID string
 	Name   string
@@ -117,7 +153,12 @@ var (
 	EffectTime = 2 * time.Hour
 )
 
-// 生成token
+/**
+ * @author: focusdorid
+ * @description: 生成token
+ * @version: 1.0
+ * @time：2023-03-02 18:07:32
+**/
 func GenerateToken(claims *UserClaims) string {
 	claims.ExpiresAt = time.Now().Add(EffectTime).Unix()
 	//生成token
@@ -130,7 +171,12 @@ func GenerateToken(claims *UserClaims) string {
 	return sign
 }
 
-// 验证token
+/**
+ * @author: focusdorid
+ * @description: 验证token
+ * @version: 1.0
+ * @time：2023-03-02 18:07:32
+**/
 func JwtVerify(url string) bool {
 	//过滤是否验证token
 	//文档里我没给出utils.IsContainArr的代码，这个东西不重要，你直接删掉这段都行，这只是一个url过滤的逻辑
@@ -260,7 +306,12 @@ func isHave(noVerify []string, url string) bool {
 	return false
 }
 
-// 对token进行解析
+/**
+ * @author: focusdroid
+ * @description: 对token进行解析
+ * @version: 1.0
+ * @time：2023-03-02 17:38:02
+**/
 func AnalysisTokenGetUserInfo(c *gin.Context) (*UserClaims, error) {
 	token := c.GetHeader("token")
 	if token == "" {
@@ -274,7 +325,12 @@ func AnalysisTokenGetUserInfo(c *gin.Context) (*UserClaims, error) {
 	return userinfo, err
 }
 
-// 判断元素是否在数组或切片中
+/**
+ * @author: focusdroid
+ * @description: 判断元素是否在数组或切片中
+ * @version: 1.0
+ * @time：2023-03-02 17:38:02
+**/
 func FieldInInt(target int, aggregate []int) bool {
 	for _, element := range aggregate {
 		if target == element {
@@ -335,4 +391,17 @@ func CheckMobile(phone string) bool {
 	regruler := "^1[345789]{1}\\d{9}$"
 	reg := regexp.MustCompile(regruler)
 	return reg.MatchString(phone)
+}
+
+/**
+ * @author: focusdroid
+ * @description: 判断身份证号负责
+ * @version: 1.0
+ * @time：2023-03-02 18:02:28
+**/
+func CheckIDCard(card string) bool {
+	regruler := "(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|x|x)$)"
+
+	reg := regexp.MustCompile(regruler)
+	return reg.MatchString(card)
 }
