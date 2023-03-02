@@ -20,6 +20,5 @@ func UserRouter(r *gin.Engine) {
 		userRouter.GET("/addUser", user.UserController{}.AddUser)          // 主管可以手动添加用户(管理员和主管可以调用)
 		userRouter.GET("/userinfo", user.UserController{}.UserInfo)        // 获取用户信息接口
 		userRouter.POST("/addUserInfo", user.UserController{}.AddUserInfo) // 添加用户信息接口
-		userRouter.GET("/getUserInfo", user.UserController{}.GetUserInfo)  // 添加用户信息接口
 	}
 }

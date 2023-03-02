@@ -113,59 +113,6 @@ func (user UserController) AddUser(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /user/userinfo [get]
 func (user UserController) UserInfo(c *gin.Context) {
-	users, userError := helper.AnalysisTokenGetUserInfo(c)
-	if userError != nil {
-		fmt.Println("userError", userError)
-		c.JSON(http.StatusOK, gin.H{
-			"code":    "200",
-			"message": "用户token异常",
-		})
-		return
-	}
-	email := users.Email
-	var userinfo models.UserField
-	userFindErr := models.DB.Model(&models.User{}).Where("is_delete = ?", 0).Where("email = ?", email).First(&userinfo).Error
-	if userFindErr != nil {
-		fmt.Println("userFindErr", userFindErr)
-		c.JSON(http.StatusOK, gin.H{
-			"code":    "-1",
-			"message": "userFindErr",
-		})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"code":    "200",
-		"message": "success",
-		"data":    userinfo,
-	})
-	return
-}
-
-// AddUserInfo
-// @Tags 用户相关方法
-// @Summary 添加用户/修改用户信息
-// @Description /user/addUserInfo
-// @Accept json
-// @Produce json
-// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /user/addUserInfo [post]
-func (user UserController) AddUserInfo(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"code":    "200",
-		"message": "success",
-		"data":    gin.H{},
-	})
-}
-
-// GetUserInfo
-// @Tags 用户相关方法
-// @Summary 获取用户信息
-// @Description /user/getUserInfo
-// @Accept json
-// @Produce json
-// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /user/getUserInfo [get]
-func (user UserController) GetUserInfo(c *gin.Context) {
 	users, paraseUserError := helper.AnalysisTokenGetUserInfo(c)
 	if paraseUserError != nil {
 		fmt.Println("paraseUserError", paraseUserError)
@@ -189,5 +136,21 @@ func (user UserController) GetUserInfo(c *gin.Context) {
 		"code":    "200",
 		"message": "success",
 		"data":    userinfo,
+	})
+}
+
+// AddUserInfo
+// @Tags 用户相关方法
+// @Summary 添加用户/修改用户信息
+// @Description /user/addUserInfo
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /user/addUserInfo [post]
+func (user UserController) AddUserInfo(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "success",
+		"data":    gin.H{},
 	})
 }
