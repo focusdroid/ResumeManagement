@@ -18,7 +18,7 @@ type APIController struct{}
 // SendMail
 // @Tags 公共方法
 // @Summary 邮箱获取验证码
-// @Param mail query string true "mail"
+// @Param email query string true "email"
 // @Description do ping
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /sendMail [post]
@@ -28,26 +28,35 @@ func (api APIController) SendMail(c *gin.Context) {
 	c.ShouldBindJSON(&json)
 	//mail := c.Query("mail")
 	//status, _ := strconv.Atoi(c.DefaultQuery("status", "1"))
-	mail := json["mail"]
+	email := json["email"]
 	status, _ := strconv.Atoi(json["status"])
-	if mail == "" {
+	if email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"message": "邮箱参数异常，请检查参数",
 		})
 		return
 	}
+	isEmail := helper.CheckEmail(email)
+	if !isEmail {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "邮箱格式不符合规范",
+			"data":    gin.H{},
+		})
+		return
+	}
 	var users = make(map[string]interface{})
-	models.DB.Model(&models.User{}).Where("email = ?", mail).First(&users)
-	if users["email"] == mail {
+	models.DB.Model(&models.User{}).Where("email = ?", email).First(&users)
+	if users["email"] == email {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"message": "该邮箱已被注册",
 		})
 		return
 	}
-	fmt.Println("mailmailmail", mail)
-	if !VerifyEmailFormat(mail) {
+	fmt.Println("mailmailmail", email)
+	if !VerifyEmailFormat(email) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "200",
 			"data":    gin.H{},
@@ -55,12 +64,12 @@ func (api APIController) SendMail(c *gin.Context) {
 		})
 		return
 	}
-	SendCodeErr := helper.SendCode(mail, status)
+	SendCodeErr := helper.SendCode(email, status)
 	if SendCodeErr != nil {
 		fmt.Println(SendCodeErr)
 		return
 	}
-	code, err := helper.RedisGet(mail)
+	code, err := helper.RedisGet(email)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -71,7 +80,7 @@ func (api APIController) SendMail(c *gin.Context) {
 		"data": gin.H{
 			"邮箱验证码": code,
 		},
-		"message": "发送成功验证码已发送" + mail + "邮箱,请及时查收",
+		"message": "发送成功验证码已发送" + email + "邮箱,请及时查收",
 	})
 }
 
@@ -219,6 +228,15 @@ func (api APIController) Register(c *gin.Context) {
 	email = helper.AutoRemoveSpace(json["email"].(string))
 	password = helper.AutoRemoveSpace(json["password"].(string))
 	code = helper.AutoRemoveSpace(json["code"].(string))
+	isEmail := helper.CheckEmail(email.(string))
+	if !isEmail {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "邮箱格式不符合规范",
+			"data":    gin.H{},
+		})
+		return
+	}
 
 	var userMessage = make(map[string]interface{})
 	models.DB.Model(&models.User{}).Where("email = ?", email).First(&userMessage)
