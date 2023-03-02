@@ -405,3 +405,15 @@ func CheckIDCard(card string) bool {
 	reg := regexp.MustCompile(regruler)
 	return reg.MatchString(card)
 }
+
+/**
+ * @author: focusdroid
+ * @description: 邮箱验证规则
+ * @version: 1.0
+ * @time：`2023-03-02 18:14:41`
+**/
+func CheckEmail(email string) bool {
+	regruler := "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,8}$"
+	reg := regexp.MustCompile(regruler)
+	return reg.MatchString(email)
+}

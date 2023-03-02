@@ -116,6 +116,15 @@ func (api APIController) Login(c *gin.Context) {
 	//var user []*models.User
 	//result := models.DB.Model(&models.User{}).Where("email = ?", email).First(&user)
 	//fmt.Println(user[0].Email, user[0].Password)
+	isEmail := helper.CheckEmail(email.(string))
+	if !isEmail {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "邮箱格式不符合规范",
+			"data":    gin.H{},
+		})
+		return
+	}
 	var users = make(map[string]interface{})
 	err := models.DB.Model(&models.User{}).Where("email = ?", email).Find(&users).Error
 	fmt.Println(reflect.TypeOf(users), reflect.TypeOf(users["email"]))
