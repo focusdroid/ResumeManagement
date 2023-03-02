@@ -324,3 +324,15 @@ func JudgeGender(field string) bool {
 	}
 	return false
 }
+
+/**
+ * @author: focusdroid
+ * @description: 手机号码验证
+ * @version: 1.0
+ * @time：2023-03-02 17:58:01
+**/
+func CheckMobile(phone string) bool {
+	regruler := "^1[345789]{1}\\d{9}$"
+	reg := regexp.MustCompile(regruler)
+	return reg.MatchString(phone)
+}

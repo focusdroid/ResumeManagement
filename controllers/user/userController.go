@@ -176,6 +176,15 @@ func (user UserController) AddUserInfo(c *gin.Context) {
 		})
 		return
 	}
+	isPhone := helper.CheckMobile(Phone)
+
+	if !isPhone {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "手机号不符合规范",
+		})
+		return
+	}
 
 	updateUserInfo := models.User{
 		Name:      Name,
