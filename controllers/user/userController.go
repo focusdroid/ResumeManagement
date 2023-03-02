@@ -148,9 +148,53 @@ func (user UserController) UserInfo(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /user/addUserInfo [post]
 func (user UserController) AddUserInfo(c *gin.Context) {
+	userinfo, err := helper.AnalysisTokenGetUserInfo(c)
+	if err != nil {
+		fmt.Println("err", err)
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": err,
+		})
+		return
+	}
+	json := make(map[string]interface{})
+
+	c.ShouldBindJSON(&json)
+
+	Name := json["name"].(string)
+	Gender := json["gender"].(string)
+	AvatarUrl := json["avatar_url"].(string)
+	NickName := json["nick_name"].(string)
+	Phone := json["phone"].(string)
+
+	isGender := helper.JudgeGender(Gender)
+
+	if !isGender {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": "参数不符合规范",
+		})
+		return
+	}
+
+	updateUserInfo := models.User{
+		Name:      Name,
+		Gender:    Gender,
+		AvatarUrl: AvatarUrl,
+		NickName:  NickName,
+		Phone:     Phone,
+	}
+	updateError := models.DB.Model(models.User{}).Where("email = ?", userinfo.Email).Updates(updateUserInfo).Error
+	if updateError != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "-1",
+			"message": updateError,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
-		"message": "success",
+		"message": "update success",
 		"data":    gin.H{},
 	})
 }

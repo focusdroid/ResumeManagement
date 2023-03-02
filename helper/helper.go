@@ -284,21 +284,43 @@ func FieldInInt(target int, aggregate []int) bool {
 	return false
 }
 
-// 判断元素是否在数组或切片中
+/**
+ * @author: focusdroid
+ * @description: 判断元素是否在数组或切片中
+ * @version: 1.0
+ * @time：2023-03-02 17:38:02
+**/
 func FieldInString(target string, aggregate []string) bool {
 	for _, element := range aggregate {
-		if target == element {
-			return true
-		}
+		return target == element
 	}
 	return false
 }
 
-// 异常返回封装
+/**
+ * @author: focusdroid
+ * @description: 异常返回封装
+ * @version: 1.0
+ * @time：2023-03-02 17:38:02
+**/
 func AbnormalEncapsulation(c *gin.Context, message string) {
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "-1",
 		"data":    gin.H{},
 		"message": message,
 	})
+}
+
+/**
+ * @author: focusdroid
+ * @description: 判断男女
+ * @version: 1.0
+ * @time：2023-03-02 17:38:02
+**/
+func JudgeGender(field string) bool {
+	genderList := []string{"M", "F"}
+	for _, value := range genderList {
+		return value == field
+	}
+	return false
 }
