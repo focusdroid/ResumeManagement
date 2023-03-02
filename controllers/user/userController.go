@@ -148,8 +148,24 @@ func (user UserController) UserInfo(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /user/addUserInfo [get]
+// @Router /user/addUserInfo [post]
 func (user UserController) AddUserInfo(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "success",
+		"data":    gin.H{},
+	})
+}
+
+// GetUserInfo
+// @Tags 用户相关方法
+// @Summary 获取用户信息
+// @Description /user/getUserInfo
+// @Accept json
+// @Produce json
+// @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
+// @Router /user/getUserInfo [get]
+func (user UserController) GetUserInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
 		"message": "success",
