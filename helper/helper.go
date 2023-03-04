@@ -348,7 +348,9 @@ func FieldInInt(target int, aggregate []int) bool {
 **/
 func FieldInString(target string, aggregate []string) bool {
 	for _, element := range aggregate {
-		return target == element
+		if target == element {
+			return true
+		}
 	}
 	return false
 }
@@ -379,7 +381,10 @@ func JudgeGender(field string) bool {
 	}
 	genderList := []string{"M", "F"}
 	for _, value := range genderList {
-		return value == field
+		fmt.Println(value, field, value == field)
+		if value == field {
+			return true
+		}
 	}
 	return false
 }

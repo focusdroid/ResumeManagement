@@ -34,7 +34,7 @@ type UserField struct {
 	Name       string     `json:"name"`
 	Phone      string     `json:"phone"`
 	Email      string     `json:"email"`
-	Gender     uint       `json:"gender"`
+	Gender     string     `json:"gender"`
 	AvatarUrl  string     `json:"avatar_url"`
 	Country    string     `json:"country"`
 	Province   string     `json:"province"`
