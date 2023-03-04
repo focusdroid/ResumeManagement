@@ -386,9 +386,9 @@ paths:
     post:
       description: do ping
       parameters:
-      - description: mail
+      - description: email
         in: query
-        name: mail
+        name: email
         required: true
         type: string
       responses:
@@ -427,21 +427,6 @@ paths:
           schema:
             type: string
       summary: 添加用户/修改用户信息
-      tags:
-      - 用户相关方法
-  /user/getUserInfo:
-    get:
-      consumes:
-      - application/json
-      description: /user/getUserInfo
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code":"200", "message":"", "data":""}'
-          schema:
-            type: string
-      summary: 获取用户信息
       tags:
       - 用户相关方法
   /user/userList:

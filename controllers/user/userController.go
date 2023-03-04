@@ -157,16 +157,22 @@ func (user UserController) AddUserInfo(c *gin.Context) {
 		})
 		return
 	}
-	json := make(map[string]interface{})
+	json := map[string]string{
+		"name":       "",
+		"gender":     "",
+		"avatar_url": "",
+		"nick_name":  "",
+		"phone":      "",
+	}
 
 	c.ShouldBindJSON(&json)
 
-	Name := json["name"].(string)
-	Gender := json["gender"].(string)
-	AvatarUrl := json["avatar_url"].(string)
-	NickName := json["nick_name"].(string)
-	Phone := json["phone"].(string)
-
+	Name := json["name"]
+	Gender := json["gender"]
+	AvatarUrl := json["avatar_url"]
+	NickName := json["nick_name"]
+	Phone := json["phone"]
+	fmt.Println("查看", Name, Gender, AvatarUrl, NickName, Phone)
 	isGender := helper.JudgeGender(Gender)
 
 	if !isGender {

@@ -374,6 +374,9 @@ func AbnormalEncapsulation(c *gin.Context, message string) {
  * @time：2023-03-02 17:38:02
 **/
 func JudgeGender(field string) bool {
+	if field == "" {
+		return true
+	}
 	genderList := []string{"M", "F"}
 	for _, value := range genderList {
 		return value == field
@@ -388,6 +391,9 @@ func JudgeGender(field string) bool {
  * @time：2023-03-02 17:58:01
 **/
 func CheckMobile(phone string) bool {
+	if phone == "" {
+		return true
+	}
 	regruler := "^1[345789]{1}\\d{9}$"
 	reg := regexp.MustCompile(regruler)
 	return reg.MatchString(phone)
@@ -416,4 +422,19 @@ func CheckEmail(email string) bool {
 	regruler := "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,8}$"
 	reg := regexp.MustCompile(regruler)
 	return reg.MatchString(email)
+}
+
+/**
+ * @author: focusdroid
+ * @description: 判断该字段是否存在，如果不存在返回空字符串
+ * @version: 1.0
+ * @time：2023-03-04 13:53:09
+**/
+func CheckString(str string) string {
+	newString := strconv.CanBackquote(str)
+	fmt.Println("newString", newString, str)
+	if newString {
+		return str
+	}
+	return " "
 }
