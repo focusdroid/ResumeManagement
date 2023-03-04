@@ -238,24 +238,40 @@ func (list ListController) ModifyMainStatus(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /list/addUserResume [post]
 func (list ListController) AddUserResume(c *gin.Context) {
-	json := make(map[string]string)
+	json := map[string]string{
+		"name":                 "",
+		"phone":                "",
+		"email":                "",
+		"gender":               "",
+		"employment_intention": "",
+		"confirm_enrollment":   "",
+		"jobbed":               "",
+		"level":                "",
+		"target_company":       "",
+		"post_salary":          "",
+		"time_induction":       "",
+		"first_contact_time":   "",
+		"person_charge":        "",
+		"remarks":              "",
+		"resumeUrl":            "",
+	}
 	c.ShouldBindJSON(&json)
 
 	name := json["name"]
 	phone := json["phone"]
 	email := json["email"]
 	gender := json["gender"]
-	employmentIntention := json["employmentIntention"] // 入职意向
-	confirmEnrollment := json["confirmEnrollment"]     // 是否确认入职
-	jobbed := json["jobbed"]                           // 技术岗位
-	level := json["level"]                             // 级别
-	targetCompany := json["targetCompany"]             // 目标公司
-	postSalary := json["postSalary"]                   // 薪资
-	timeInduction := json["timeInduction"]             // 入职时间
-	firstContactTime := json["firstContactTime"]       // 首次联系时间
-	personCharge := json["personCharge"]               // 入职负责人
-	remarks := json["remarks"]                         // 备注
-	resumeUrl := json["resumeUrl"]                     // 简历url
+	employmentIntention := json["employment_intention"] // 入职意向
+	confirmEnrollment := json["confirm_enrollment"]     // 是否确认入职
+	jobbed := json["jobbed"]                            // 技术岗位
+	level := json["level"]                              // 级别
+	targetCompany := json["target_company"]             // 目标公司
+	postSalary := json["post_salary"]                   // 薪资
+	timeInduction := json["time_induction"]             // 入职时间
+	firstContactTime := json["first_contact_time"]      // 首次联系时间
+	personCharge := json["person_charge"]               // 入职负责人
+	remarks := json["remarks"]                          // 备注
+	resumeUrl := json["resumeUrl"]                      // 简历url
 	if name == "" || email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
@@ -475,17 +491,17 @@ func (list ListController) UpdateResumeInfo(c *gin.Context) {
 	phone := json["phone"]
 	email := json["email"]
 	gender := json["gender"]
-	employmentIntention := json["employmentIntention"] // 入职意向
-	confirmEnrollment := json["confirmEnrollment"]     // 是否确认入职
-	jobbed := json["jobbed"]                           // 技术岗位
-	level := json["level"]                             // 级别
-	targetCompany := json["targetCompany"]             // 目标公司
-	postSalary := json["postSalary"]                   // 薪资
-	timeInduction := json["timeInduction"]             // 入职时间
-	firstContactTime := json["firstContactTime"]       // 首次联系时间
-	personCharge := json["personCharge"]               // 入职负责人
-	remarks := json["remarks"]                         // 备注
-	resumeUrl := json["resumeUrl"]                     // 简历url
+	employmentIntention := json["employment_intention"] // 入职意向
+	confirmEnrollment := json["confirm_enrollment"]     // 是否确认入职
+	jobbed := json["jobbed"]                            // 技术岗位
+	level := json["level"]                              // 级别
+	targetCompany := json["target_company"]             // 目标公司
+	postSalary := json["post_salary"]                   // 薪资
+	timeInduction := json["time_induction"]             // 入职时间
+	firstContactTime := json["first_contactTime"]       // 首次联系时间
+	personCharge := json["person_charge"]               // 入职负责人
+	remarks := json["remarks"]                          // 备注
+	resumeUrl := json["resumeUrl"]                      // 简历url
 	if name == "" || email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
@@ -500,8 +516,7 @@ func (list ListController) UpdateResumeInfo(c *gin.Context) {
 		})
 		return
 	}
-	token := c.GetHeader("token")
-	userinfo, infoErr := helper.ParseToken(c, token)
+	userinfo, infoErr := helper.AnalysisTokenGetUserInfo(c)
 	if infoErr != nil {
 		fmt.Println(infoErr)
 		c.JSON(http.StatusOK, gin.H{
