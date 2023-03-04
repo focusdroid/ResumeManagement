@@ -483,9 +483,24 @@ func (list ListController) ResumeDeleted(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /list/updateInfo [post]
 func (list ListController) UpdateResumeInfo(c *gin.Context) {
-	json := make(map[string]string)
+	json := map[string]string{
+		"name":                 "",
+		"phone":                "",
+		"email":                "",
+		"gender":               "",
+		"employment_intention": "",
+		"confirm_enrollment":   "",
+		"jobbed":               "",
+		"level":                "",
+		"target_company":       "",
+		"post_salary":          "",
+		"time_induction":       "",
+		"first_contact_time":   "",
+		"person_charge":        "",
+		"remarks":              "",
+		"resumeUrl":            "",
+	}
 	c.ShouldBindJSON(&json)
-	fmt.Println("json------>", json)
 	id := json["id"]
 	name := json["name"]
 	phone := json["phone"]
@@ -498,7 +513,7 @@ func (list ListController) UpdateResumeInfo(c *gin.Context) {
 	targetCompany := json["target_company"]             // 目标公司
 	postSalary := json["post_salary"]                   // 薪资
 	timeInduction := json["time_induction"]             // 入职时间
-	firstContactTime := json["first_contactTime"]       // 首次联系时间
+	firstContactTime := json["first_contact_time"]      // 首次联系时间
 	personCharge := json["person_charge"]               // 入职负责人
 	remarks := json["remarks"]                          // 备注
 	resumeUrl := json["resumeUrl"]                      // 简历url
