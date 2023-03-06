@@ -44,9 +44,6 @@ func (list ListController) ResumeList(c *gin.Context) {
 		})
 		return
 	}
-
-	/*token := c.GetHeader("token")
-	userinfo, _ := helper.ParseToken(c, token)*/
 	userinfo, err := helper.AnalysisTokenGetUserInfo(c)
 	if err != nil {
 		fmt.Println(err)
@@ -56,13 +53,16 @@ func (list ListController) ResumeList(c *gin.Context) {
 	pageNum := (page - 1) * pageSize
 	var (
 		resumeList []models.ResumeInterface
+		total      []models.ResumeInterface
 		errs       error
 	)
 	fmt.Println("middleware.CurrentEmail", middleware.CurrentEmail)
 	if name == "" && email == "" {
 		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Offset(pageNum).Limit(pageSize).Find(&total).Error
 	} else {
 		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Where("name= ? or email = ? ", name, email).Offset(pageNum).Limit(pageSize).Find(&resumeList).Error
+		errs = models.DB.Model(models.Resume{}).Where("is_delete", 0).Where("upload_user_email = ?", middleware.CurrentEmail).Where("name= ? or email = ? ", name, email).Offset(pageNum).Limit(pageSize).Find(&total).Error
 	}
 	if errs != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -77,7 +77,7 @@ func (list ListController) ResumeList(c *gin.Context) {
 		"code": "200",
 		"data": gin.H{
 			"data":     resumeList,
-			"total":    len(resumeList),
+			"total":    len(total),
 			"page":     page,
 			"pageSize": pageSize,
 		},
