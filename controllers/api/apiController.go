@@ -190,8 +190,8 @@ func (api APIController) Login(c *gin.Context) {
 		Phone:  userlist["phone"].(string),
 	})
 	c.JSON(http.StatusOK, gin.H{
-		"code": "200",
-		//"data":    userlist,
+		"code":    "200",
+		"data":    userlist,
 		"token":   token,
 		"message": "success",
 	})
