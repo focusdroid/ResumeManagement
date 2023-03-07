@@ -1,10 +1,15 @@
 package routers
 
-import "github.com/gin-gonic/gin"
+import (
+	"ResumeManagement/middleware"
+	"github.com/gin-gonic/gin"
+)
 
 func Router() *gin.Engine {
 
-	r := gin.Default()
+	r := gin.New()
+	r.Use(middleware.Loggoer())
+	r.Use(gin.Recovery())
 	DocsRouter(r)      // 文档地址
 	ApiRouters(r)      // 公共的api
 	ListInfoRouters(r) // 简历列表接口
