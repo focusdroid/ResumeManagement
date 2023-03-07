@@ -69,15 +69,19 @@ func Loggoer() gin.HandlerFunc {
 		}
 		method := c.Request.Method
 		path := c.Request.RequestURI
+		referer := c.Request.Referer
+		host := c.Request.Host
 
 		entry := logger.WithFields(logrus.Fields{
 			"HostTime":  hostName,
 			"status":    statusCode,
 			"SpendTime": spendTime,
 			"Ip":        clientIp,
+			"Host":      host,
 			"Method":    method,
 			"Agent":     userAgent,
 			"Path":      path,
+			"Referer":   referer,
 		})
 		if len(c.Errors) > 0 {
 			entry.Error(c.Errors.ByType(gin.ErrorTypePrivate).String())
