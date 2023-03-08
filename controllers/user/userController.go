@@ -44,7 +44,7 @@ func (user UserController) UserList(c *gin.Context) {
 	}
 	fmt.Println(userinfo)
 	var userAdmin models.User
-	findError := models.DB.Model(models.User{}).Where("user_id = ?", userinfo.UserID).First(&userAdmin).Error
+	findError := models.DB.Model(models.User{}).Where("is_delete = ?", 0).Where("user_id = ?", userinfo.UserID).First(&userAdmin).Error
 	if findError != nil {
 		fmt.Println(findError)
 		c.JSON(http.StatusOK, gin.H{
@@ -65,7 +65,10 @@ func (user UserController) UserList(c *gin.Context) {
 	pageNumber := (page - 1) * pageSize
 
 	var userList []models.UserField
-	FindError := models.DB.Model(&models.User{}).Offset(pageNumber).Limit(pageSize).Where("is_admin = ?", false).Scan(&userList).Error
+	//var total []models.UserField
+
+	//models.DB.Model(&models.User{}).Where("is_delete = ?", false).Scan(&total)
+	FindError := models.DB.Model(&models.User{}).Offset(pageNumber).Limit(pageSize).Where("is_delete = ?", false).Scan(&userList).Error
 	if FindError != nil {
 		fmt.Println(FindError)
 		c.JSON(http.StatusOK, gin.H{
@@ -75,13 +78,13 @@ func (user UserController) UserList(c *gin.Context) {
 		})
 		return
 	}
-
+	total := 100
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
 		"message": "success",
 		"data": gin.H{
 			"data":        userList,
-			"total":       len(userList),
+			"total":       total,
 			"currentPage": page,
 			"pageSize":    pageSize,
 		},
