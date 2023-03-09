@@ -240,7 +240,8 @@ func (api APIController) Register(c *gin.Context) {
 
 	var userMessage = make(map[string]interface{})
 	models.DB.Model(&models.User{}).Where("email = ?", email).First(&userMessage)
-	if userMessage["email"] == email {
+	fmt.Println("userMessage", userMessage, len(userMessage))
+	if len(userMessage) > 0 && userMessage["email"] == email {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"data":    gin.H{},
