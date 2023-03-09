@@ -237,7 +237,6 @@ func (api APIController) Register(c *gin.Context) {
 		})
 		return
 	}
-
 	var userMessage = make(map[string]interface{})
 	models.DB.Model(&models.User{}).Where("email = ?", email).First(&userMessage)
 	fmt.Println("userMessage", userMessage, len(userMessage))
@@ -255,10 +254,11 @@ func (api APIController) Register(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"data":    gin.H{},
-			"message": "验证码过期",
+			"message": "验证码错误或redis服务没有启动",
 		})
 		return
 	}
+
 	var user []*models.User
 	dataEmail := models.DB.Model(&models.User{}).First(&user, "email = ?", email)
 	fmt.Println(dataEmail.RowsAffected, dataEmail)

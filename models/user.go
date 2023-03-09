@@ -5,10 +5,12 @@ import (
 	"time"
 )
 
-/*
-*
-用户表
-*/
+/**
+ * @author: focusdroid
+ * @description: 用户表
+ * @version: 1.0
+ * @time：2022-12-20 14:22:53
+**/
 type User struct {
 	gorm.Model
 	UserId     string    `gorm:"column:user_id;type:varchar(255);" db:"column:user_id" form:"user_id" json:"user_id" comment:"用户ID"`
