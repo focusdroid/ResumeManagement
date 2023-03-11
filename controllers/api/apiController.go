@@ -97,7 +97,7 @@ func VerifyEmailFormat(email string) bool {
 // Login
 // @Tags 公共方法
 // @Summary 用户登录
-// @Param username query string true "username"
+// @Param email query string true "email"
 // @Param password query string true "password"
 // @Description do ping
 // @Accept json
@@ -200,7 +200,7 @@ func (api APIController) Login(c *gin.Context) {
 // Register
 // @Tags 公共方法
 // @Summary 用户注册
-// @Param username query string true "username"
+// @Param email query string true "email"
 // @Param password query string true "password"
 // @Param code query string true "code"
 // @Description do ping
@@ -213,19 +213,16 @@ func (api APIController) Register(c *gin.Context) {
 		"email":    "",
 		"password": "",
 		"code":     "",
-		"isEmail":  "",
 	}
-	//c.ShouldBindJSON(&json)
-	c.BindJSON(&json)
+	c.ShouldBindJSON(&json)
 	email := json["email"]
 	password := json["password"]
 	code := json["code"]
 
-	fmt.Println(email, password, code)
+	fmt.Println("-----------------", email == "", password, code, json)
 	if email == "" || password == "" || code == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
-			"data":    gin.H{},
 			"message": "请将注册信息填写完整",
 		})
 		return

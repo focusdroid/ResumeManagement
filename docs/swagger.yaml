@@ -310,9 +310,9 @@ paths:
       - application/json
       description: do ping
       parameters:
-      - description: username
+      - description: email
         in: query
-        name: username
+        name: email
         required: true
         type: string
       - description: password
@@ -357,9 +357,9 @@ paths:
       - application/json
       description: do ping
       parameters:
-      - description: username
+      - description: email
         in: query
-        name: username
+        name: email
         required: true
         type: string
       - description: password

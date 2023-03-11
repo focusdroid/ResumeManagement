@@ -466,8 +466,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "username",
-                        "name": "username",
+                        "description": "email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
@@ -537,8 +537,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "username",
-                        "name": "username",
+                        "description": "email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },

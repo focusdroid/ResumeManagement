@@ -478,8 +478,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "username",
-                        "name": "username",
+                        "description": "email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
@@ -549,8 +549,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "username",
-                        "name": "username",
+                        "description": "email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
