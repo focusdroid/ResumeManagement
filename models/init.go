@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"fmt"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
@@ -29,16 +30,24 @@ func Init() *gorm.DB {
 
 }
 
+var ctx = context.Background()
+
 func InitRedisDB() *redis.Client {
+
 	defer func() {
 		err := recover()
 		if err != nil {
 			fmt.Println(err, "redis可能是数据库创建问题")
 		}
 	}()
-	return redis.NewClient(&redis.Options{
+	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
+	_, err := rdb.Ping(ctx).Result()
+	if err != nil {
+		fmt.Println("redis-err", err)
+	}
+	return rdb
 }
