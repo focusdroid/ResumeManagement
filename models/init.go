@@ -47,6 +47,7 @@ func InitRedisDB() *redis.Client {
 	})
 	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
+		fmt.Println("redis服务未启动或连接不到redis")
 		fmt.Println("redis-err", err)
 	}
 	return rdb
