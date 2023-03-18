@@ -105,6 +105,11 @@ func VerifyEmailFormat(email string) bool {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /login [post]
 func (api APIController) Login(c *gin.Context) {
+	//if ok := models.Casbins.AddPolicy("admin", "/login", "POST"); !ok {
+	//	fmt.Println("Policy已经存在")
+	//} else {
+	//	fmt.Println("增加成功")
+	//}
 	fmt.Println("login")
 	json := make(map[string]interface{})
 
