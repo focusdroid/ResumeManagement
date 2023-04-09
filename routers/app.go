@@ -2,11 +2,23 @@ package routers
 
 import (
 	"ResumeManagement/middleware"
+	"ResumeManagement/models"
 	"github.com/gin-gonic/gin"
 )
 
 func Router() *gin.Engine {
 	r := gin.New()
+	e := models.Enforcer
+
+	e.LoadPolicy()
+	/*r.POST("", func(c *gin.Context) {
+		fmt.Println("增加Policy")
+		if ok, _ := e.AddPolicy(e, "focusdroid_go@163.com", "admin", "/login", "GET"); !ok {
+			fmt.Println("Policy已经存在")
+		} else {
+			fmt.Println("增加成功")
+		}
+	})*/
 	r.Use(middleware.Loggoer())
 	r.Use(gin.Recovery()) // Recovery 中间件会 recover 任何 panic。如果有 panic 的话，会写入 500
 	DocsRouter(r)         // 文档地址

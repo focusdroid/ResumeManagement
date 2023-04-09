@@ -3,18 +3,20 @@ package models
 import (
 	"context"
 	"fmt"
-	"github.com/casbin/casbin"
-	xormadapter "github.com/casbin/xorm-adapter"
+	"github.com/casbin/casbin/v2"
+	xormadapter "github.com/casbin/xorm-adapter/v2"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
 )
 
 var DB = Init()
 
 var RDB = InitRedisDB()
 
-//var Casbins = InitCasbin()
+var Enforcer = InitCasbin()
 
 func Init() *gorm.DB {
 	dsn := "root:mysql@tcp(127.0.0.1:3306)/resume?charset=utf8mb4&parseTime=True&loc=Local"
@@ -22,7 +24,7 @@ func Init() *gorm.DB {
 	if err != nil {
 		fmt.Println(err)
 	}
-	DB.AutoMigrate(&User{}, &Resume{}, &Backlog{}, &BlackList{})
+	DB.Set("gorm:table_options", "ENGINE=InnDB").AutoMigrate(&User{}, &Resume{}, &Backlog{}, &BlackList{})
 	defer func() {
 		err := recover()
 		if err != nil {
@@ -57,9 +59,15 @@ func InitRedisDB() *redis.Client {
 }
 
 func InitCasbin() *casbin.Enforcer {
-	a := xormadapter.NewAdapter("mysql", "root:mysql@tcp(127.0.0.1:3306)/resume?charset=utf8", true)
-	e := casbin.NewEnforcer("../rbac/rbac_models.conf", a)
-	//从DB加载策略
-	e.LoadPolicy()
+	a, err := xormadapter.NewAdapter("mysql", "root:mysql@tcp(127.0.0.1:3306)/resume?charset=utf8", true)
+	if err != nil {
+		log.Fatalf("casbin连接数据库错误error: adapter: %s", err)
+	}
+
+	e, err := casbin.NewEnforcer("models/conf/rbac_models.conf", a)
+	if err != nil {
+		log.Fatalf("初始化casbin错误error: model: %s", err)
+	}
+	fmt.Println("eeee", e)
 	return e
 }

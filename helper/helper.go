@@ -183,6 +183,7 @@ func JwtVerify(url string) bool {
 	/*if utils.IsContainArr(noVerify, c.Request.RequestURI) {
 		return
 	}*/
+	fmt.Println("isHave(noVerify, url)", isHave(noVerify, url))
 	if isHave(noVerify, url) {
 		return true
 	}
@@ -301,8 +302,17 @@ func ParseToken(c *gin.Context, tokenString string) (*UserClaims, error) {
 */
 func isHave(noVerify []string, url string) bool {
 	for _, v := range noVerify {
-		return v == url
+		fmt.Println("value", v)
+		if v == url {
+			return true
+		}
 	}
+	/*for i := 0; i < len(noVerify); i++ {
+		fmt.Println("value", noVerify[i])
+		if noVerify[i] == url {
+			return true
+		}
+	}*/
 	return false
 }
 

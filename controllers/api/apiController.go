@@ -177,9 +177,27 @@ func (api APIController) Login(c *gin.Context) {
 		Phone  string
 	}
 	//var userlist *Userinfo
-	var userlist = make(map[string]interface{})
-	models.DB.Model(&models.User{}).Where("email = ?", email).Scan(&userlist)
-	if userlist == nil {
+	var userlist = make(map[string]interface{}) // 获取token可以使用的用户信息
+	var userlists *models.UserField             // 获取返回的用户信息
+	userlistsError := models.DB.Model(&models.User{}).Where("email = ?", email).First(&userlists).Error
+	if userlistsError != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "200",
+			"data":    gin.H{},
+			"message": "数据库查询异常",
+		})
+		return
+	}
+	userlistError := models.DB.Model(&models.User{}).Where("email = ?", email).First(&userlist).Error
+	if userlistError != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code":    "200",
+			"data":    gin.H{},
+			"message": "数据库查询异常",
+		})
+		return
+	}
+	if userlists == nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "200",
 			"data":    gin.H{},
@@ -187,7 +205,7 @@ func (api APIController) Login(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println(userlist["email"], userlist)
+	fmt.Println(userlist["email"], userlists)
 	token := helper.GenerateToken(&helper.UserClaims{
 		UserID: userlist["user_id"].(string),
 		Name:   userlist["name"].(string),
@@ -196,7 +214,7 @@ func (api APIController) Login(c *gin.Context) {
 	})
 	c.JSON(http.StatusOK, gin.H{
 		"code":    "200",
-		"data":    userlist,
+		"data":    userlists,
 		"token":   token,
 		"message": "success",
 	})
