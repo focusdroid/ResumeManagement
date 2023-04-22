@@ -76,10 +76,7 @@ func (api APIController) SendMail(c *gin.Context) {
 	}
 	fmt.Println(code)
 	c.JSON(http.StatusOK, gin.H{
-		"code": "200",
-		"data": gin.H{
-			"邮箱验证码": code,
-		},
+		"code":    "200",
 		"message": "发送成功验证码已发送" + email + "邮箱,请及时查收",
 	})
 }
@@ -97,7 +94,7 @@ func VerifyEmailFormat(email string) bool {
 // Login
 // @Tags 公共方法
 // @Summary 用户登录
-// @Param username query string true "username"
+// @Param username query string true "email"
 // @Param password query string true "password"
 // @Description do ping
 // @Accept json
@@ -111,15 +108,16 @@ func (api APIController) Login(c *gin.Context) {
 	//	fmt.Println("增加成功")
 	//}
 	fmt.Println("login")
-	json := make(map[string]interface{})
+	json := map[string]string{
+		"email":    "",
+		"password": "",
+	}
 
 	c.ShouldBindJSON(&json)
-	//username := strings.TrimSpace(json["username"].(string))
-	//password := strings.TrimSpace(json["password"].(string))
 	email := json["email"]
 	password := json["password"]
 	fmt.Println("login", email, password)
-	if email == nil || password == nil || email == "" || password == "" {
+	if email == "" || password == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "200",
 			"message": "用户名或密码不能为空",
@@ -130,7 +128,7 @@ func (api APIController) Login(c *gin.Context) {
 	//var user []*models.User
 	//result := models.DB.Model(&models.User{}).Where("email = ?", email).First(&user)
 	//fmt.Println(user[0].Email, user[0].Password)
-	isEmail := helper.CheckEmail(email.(string))
+	isEmail := helper.CheckEmail(email)
 	if !isEmail {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
@@ -223,7 +221,7 @@ func (api APIController) Login(c *gin.Context) {
 // Register
 // @Tags 公共方法
 // @Summary 用户注册
-// @Param username query string true "username"
+// @Param username query string true "email"
 // @Param password query string true "password"
 // @Param code query string true "code"
 // @Description do ping
@@ -232,26 +230,30 @@ func (api APIController) Login(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /register [post]
 func (api APIController) Register(c *gin.Context) {
-	json := make(map[string]interface{})
-	//c.ShouldBindJSON(&json)
-	c.BindJSON(&json)
+	json := map[string]string{
+		"email":    "",
+		"password": "",
+		"code":     "",
+	}
+	c.ShouldBindJSON(&json)
+	//c.BindJSON(&json)
+	fmt.Println("jsonjson", json)
 	email := json["email"]
 	password := json["password"]
 	code := json["code"]
 
-	fmt.Println(email, password, code)
-	if email == nil || password == nil || code == nil || email.(string) == "" || password.(string) == "" || code.(string) == "" {
+	fmt.Println("register===", email, password, code, json)
+	if email == "" || password == "" || code == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
-			"data":    gin.H{},
-			"message": "请将注册信息填写完整",
+			"message": "请将注册信息填写完整!",
 		})
 		return
 	}
-	email = helper.AutoRemoveSpace(json["email"].(string))
-	password = helper.AutoRemoveSpace(json["password"].(string))
-	code = helper.AutoRemoveSpace(json["code"].(string))
-	isEmail := helper.CheckEmail(email.(string))
+	email = helper.AutoRemoveSpace(json["email"])
+	password = helper.AutoRemoveSpace(json["password"])
+	code = helper.AutoRemoveSpace(json["code"])
+	isEmail := helper.CheckEmail(email)
 	if !isEmail {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
@@ -271,7 +273,7 @@ func (api APIController) Register(c *gin.Context) {
 		})
 		return
 	}
-	emailCode, err := helper.RedisGet(email.(string))
+	emailCode, err := helper.RedisGet(email)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusOK, gin.H{
@@ -299,13 +301,13 @@ func (api APIController) Register(c *gin.Context) {
 			"data":    gin.H{},
 			"message": "验证码输入错误,请重新获取验证码",
 		})
-		helper.RedisDelete(email.(string))
+		helper.RedisDelete(email)
 		return
 	}
 	users := models.User{
-		Email:    email.(string),
-		UserId:   email.(string),
-		Password: password.(string),
+		Email:    email,
+		UserId:   email,
+		Password: password,
 	}
 	createErr := models.DB.Model(&models.User{}).Create(&users).Error
 	if createErr != nil {
@@ -321,13 +323,14 @@ func (api APIController) Register(c *gin.Context) {
 		"data":    gin.H{},
 		"message": "注册成功",
 	})
-	val, err := helper.RedisDelete(email.(string)) // 注册成功之后删除redis中的随机码
+	val, err := helper.RedisDelete(email) // 注册成功之后删除redis中的随机码
 	if err != nil {
 		fmt.Println(val, err)
-		helper.RedisDelete(email.(string))
+		helper.RedisDelete(email)
 	}
 }
 
+// RefreshToken
 // @Tags 公共方法
 // @Summary 刷新token
 // @Param token query string true "token"
@@ -373,6 +376,7 @@ func (api APIController) RefreshToken(c *gin.Context) {
 	})
 }
 
+// IsLine
 // @Tags 公共方法
 // @Summary 验证token
 // @Param token query string true "token"

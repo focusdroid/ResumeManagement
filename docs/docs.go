@@ -478,7 +478,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "username",
+                        "description": "email",
                         "name": "username",
                         "in": "query",
                         "required": true

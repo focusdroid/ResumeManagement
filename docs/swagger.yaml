@@ -310,7 +310,7 @@ paths:
       - application/json
       description: do ping
       parameters:
-      - description: username
+      - description: email
         in: query
         name: username
         required: true

@@ -302,7 +302,6 @@ func ParseToken(c *gin.Context, tokenString string) (*UserClaims, error) {
 */
 func isHave(noVerify []string, url string) bool {
 	for _, v := range noVerify {
-		fmt.Println("value", v)
 		if v == url {
 			return true
 		}
