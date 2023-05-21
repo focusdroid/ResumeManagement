@@ -23,26 +23,26 @@ type User struct {
 	City       string    `gorm:"column:city;type:varchar(100);" db:"column:city" form:"city" json:"city" comment:"城市"`
 	NickName   string    `gorm:"column:nick_name;type:varchar(100)" db:"column:nick_name" form:"nick_name" json:"nick_name" comment:"昵称"`
 	UserStatus string    `gorm:"column:user_status;type:varchar(100)" db:"column:user_status" form:"user_status" json:"user_status" comment:"用户状态0禁止登录1正常2限制查看人员简历"`
-	IsAdmin    bool      `gorm:"column:is_admin;type:tinyint;default:0;" db:"column:is_admin" form:"is_admin" json:"is_admin" comment:"是否是管理员0否1是"`
+	IsAdmin    bool      `gorm:"column:is_admin;type:tinyint;default:0;" db:"column:is_admin" form:"is_admin" json:"is_admin" comment:"sadmin(超级管理员0) admin（管理员1）manager(经理2) majordomo(总监3) normal(正常4)"`
 	IsDelete   bool      `gorm:"column:is_delete;type:tinyint;default:0;" db:"column:is_delete" form:"is_delete" json:"is_delete" comment:"删除用户true"`
 	LineTime   time.Time `gorm:"column:line_time" db:"column:line_time" form:"line_time" json:"line_time" comment:"在线时间"`
 }
 
 type UserField struct {
-	ID         uint       `gorm:"column:id" json:"id"`
-	UserId     string     `gorm:"column:user_id" json:"user_id"`
-	Name       string     `gorm:"column:name" json:"name"`
-	Phone      string     `gorm:"column:phone" json:"phone"`
-	Email      string     `gorm:"column:email" json:"email"`
-	Gender     string     `gorm:"column:gender" json:"gender"`
-	AvatarUrl  string     `gorm:"column:avatar_url" json:"avatar_url"`
-	Country    string     `gorm:"column:country" json:"country"`
-	Province   string     `gorm:"column:province" json:"province"`
-	City       string     `gorm:"column:city" json:"city"`
-	NickName   string     `gorm:"column:nick_name" json:"nick_name"`
-	UserStatus string     `gorm:"column:user_status" json:"user_status"`
-	IsAdmin    bool       `gorm:"column:is_admin" json:"is_admin"`
-	LineTime   *time.Time `gorm:"column:line_time" json:"line_time"`
+	ID         uint       `json:"id"`
+	UserId     string     `json:"user_id"`
+	Name       string     `json:"name"`
+	Phone      string     `json:"phone"`
+	Email      string     `json:"email"`
+	Gender     string     `json:"gender"`
+	AvatarUrl  string     `json:"avatar_url"`
+	Country    string     `json:"country"`
+	Province   string     `json:"province"`
+	City       string     `json:"city"`
+	NickName   string     `json:"nick_name"`
+	UserStatus string     `json:"user_status"`
+	IsAdmin    bool       `json:"is_admin"`
+	LineTime   *time.Time `json:"line_time"`
 }
 
 func (user *User) TableName() string {

@@ -43,7 +43,7 @@ func SendCode(toUserEmail string, code int) error {
 	e.To = []string{toUserEmail}
 	//e.Bcc = []string{"test_bcc@example.com"}
 	//e.Cc = []string{"test_cc@example.com"}
-	e.Subject = "验证码发送测试"
+	e.Subject = "验证码"
 	var num string = GetRand()
 	fmt.Println(num)
 	var text string
@@ -451,4 +451,19 @@ func CheckString(str string) string {
 		return str
 	}
 	return " "
+}
+
+/**
+ * @title: 权限
+ * @description: 添加不同权限, sadmin(超级管理员0) admin（管理员1）manager(经理2) majordomo(总监3) normal(正常4)
+ * @author: focusdroid
+ * @time：2023-05-07 12:48:57
+ * @updateTime: 2023-05-07 12:48:57
+**/
+func AdminAuth(auth int, path string, requestType string) {
+	if ok, _ := models.Enforcer.AddPolicy(auth, path, requestType); !ok {
+		fmt.Println("Policy已经存在")
+	} else {
+		fmt.Println("增加成功")
+	}
 }

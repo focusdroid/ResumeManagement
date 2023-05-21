@@ -2,15 +2,11 @@ package routers
 
 import (
 	"ResumeManagement/middleware"
-	"ResumeManagement/models"
 	"github.com/gin-gonic/gin"
 )
 
 func Router() *gin.Engine {
 	r := gin.New()
-	e := models.Enforcer
-
-	e.LoadPolicy()
 	/*r.POST("", func(c *gin.Context) {
 		fmt.Println("增加Policy")
 		if ok, _ := e.AddPolicy(e, "focusdroid_go@163.com", "admin", "/login", "GET"); !ok {

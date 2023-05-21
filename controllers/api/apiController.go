@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"net/http"
-	"reflect"
 	"regexp"
 	"strconv"
 	"time"
@@ -23,6 +22,7 @@ type APIController struct{}
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /sendMail [post]
 func (api APIController) SendMail(c *gin.Context) {
+	//helper.AdminAuth(0, "/sendMail", "post")
 	fmt.Println("ccccccc", c)
 	var json = make(map[string]string)
 	c.ShouldBindJSON(&json)
@@ -102,7 +102,8 @@ func VerifyEmailFormat(email string) bool {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /login [post]
 func (api APIController) Login(c *gin.Context) {
-	//if ok := models.Casbins.AddPolicy("admin", "/login", "POST"); !ok {
+	//helper.AdminAuth(0, "/login", "post")
+	//if ok, _ := models.Enforcer.AddPolicy("admin", "/login", "POST"); !ok {
 	//	fmt.Println("Policy已经存在")
 	//} else {
 	//	fmt.Println("增加成功")
@@ -112,8 +113,9 @@ func (api APIController) Login(c *gin.Context) {
 		"email":    "",
 		"password": "",
 	}
-
+	//json := make(map[string]string)
 	c.ShouldBindJSON(&json)
+
 	email := json["email"]
 	password := json["password"]
 	fmt.Println("login", email, password)
@@ -125,9 +127,9 @@ func (api APIController) Login(c *gin.Context) {
 		})
 		return
 	}
-	//var user []*models.User
-	//result := models.DB.Model(&models.User{}).Where("email = ?", email).First(&user)
-	//fmt.Println(user[0].Email, user[0].Password)
+	/*var user []*models.User
+	result := models.DB.Model(&models.User{}).Where("email = ?", email).First(&user)
+	fmt.Println(user[0].Email, user[0].Password, result)*/
 	isEmail := helper.CheckEmail(email)
 	if !isEmail {
 		c.JSON(http.StatusOK, gin.H{
@@ -137,13 +139,14 @@ func (api APIController) Login(c *gin.Context) {
 		})
 		return
 	}
-	var users = make(map[string]interface{})
-	err := models.DB.Model(&models.User{}).Where("email = ?", email).Find(&users).Error
-	fmt.Println(reflect.TypeOf(users), reflect.TypeOf(users["email"]))
+	var users = map[string]interface{}{}
+	err := models.DB.Model(&models.User{}).Where("email = ?", email).First(&users).Error
+	fmt.Println(users)
 	if users["email"] == nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    "-1",
 			"data":    gin.H{},
+			"err":     err,
 			"message": "未查到该邮箱的注册记录",
 		})
 		return
@@ -230,6 +233,7 @@ func (api APIController) Login(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /register [post]
 func (api APIController) Register(c *gin.Context) {
+	//helper.AdminAuth(0, "/register", "post")
 	json := map[string]string{
 		"email":    "",
 		"password": "",
@@ -340,6 +344,7 @@ func (api APIController) Register(c *gin.Context) {
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
 // @Router /refreshToken [get]
 func (api APIController) RefreshToken(c *gin.Context) {
+	//helper.AdminAuth(0, "/refreshToken", "get")
 	token := c.Query("token")
 	if token == "" {
 		c.JSON(http.StatusOK, gin.H{
@@ -384,8 +389,9 @@ func (api APIController) RefreshToken(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {string} json "{"code":"200", "message":"", "data":""}"
-// @Router /refreshToken [get]
+// @Router /isLine [get]
 func (api APIController) IsLine(c *gin.Context) {
+	//helper.AdminAuth(0, "/isLine", "get")
 	userinfo, err := helper.AnalysisTokenGetUserInfo(c)
 	fmt.Println("vvvasdfgasdfv")
 	fmt.Println("userinfo12asdfvasfvAZSVF313213", userinfo)

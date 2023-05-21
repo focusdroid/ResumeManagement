@@ -24,7 +24,8 @@ func Init() *gorm.DB {
 	if err != nil {
 		fmt.Println(err)
 	}
-	DB.Set("gorm:table_options", "ENGINE=InnDB").AutoMigrate(&User{}, &Resume{}, &Backlog{}, &BlackList{})
+	//DB.Set("gorm:table_options", "ENGINE=InnDB").AutoMigrate(&User{}, &Resume{}, &Backlog{}, &BlackList{})
+	DB.AutoMigrate(&User{}, &Resume{}, &Backlog{}, &BlackList{})
 	defer func() {
 		err := recover()
 		if err != nil {
@@ -69,5 +70,6 @@ func InitCasbin() *casbin.Enforcer {
 		log.Fatalf("初始化casbin错误error: model: %s", err)
 	}
 	fmt.Println("eeee", e)
+	e.LoadPolicy()
 	return e
 }
